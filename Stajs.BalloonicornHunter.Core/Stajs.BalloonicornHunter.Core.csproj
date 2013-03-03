@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="MasterServer\MasterServerQuery.cs" />
     <Compile Include="MasterServer\MasterServerRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

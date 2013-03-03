@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Stajs.BalloonicornHunter.Core.Extensions;
 
 namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
@@ -33,12 +34,54 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 				var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
 				var receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
-				var returnData = Encoding.ASCII.GetString(receiveBytes);
+				var returnData = Encoding.UTF8.GetString(receiveBytes);
+
+				Parse(receiveBytes);
+
 			}
 
 			return null; // WIP
 		}
 
+		private List<IPEndPoint> Parse(byte[] bytes)
+		{
+			// Header
+			bytes = bytes.RemoveFromStart(6);
+			// Debug
+			var hex = BitConverter.ToString(bytes);
+
+			var servers = new List<string>();
+			
+			while (bytes.Length > 0)
+			{
+				var sb = new StringBuilder();
+				sb.AppendFormat("{0}.", bytes.ToIpAddressOctet());
+				bytes = bytes.RemoveFromStart(1);
+				hex = BitConverter.ToString(bytes);
+
+				sb.AppendFormat("{0}.", bytes.ToIpAddressOctet());
+				bytes = bytes.RemoveFromStart(1);
+				hex = BitConverter.ToString(bytes);
+
+				sb.AppendFormat("{0}.", bytes.ToIpAddressOctet());
+				bytes = bytes.RemoveFromStart(1);
+				hex = BitConverter.ToString(bytes);
+
+				sb.AppendFormat("{0}:", bytes.ToIpAddressOctet());
+				bytes = bytes.RemoveFromStart(1);
+				hex = BitConverter.ToString(bytes);
+
+				sb.Append(bytes.ToIpAddressPort());
+				bytes = bytes.RemoveFromStart(2);
+				hex = BitConverter.ToString(bytes);
+
+				servers.Add(sb.ToString());
+			}
+
+			// Hacking!
+			return null;
+		}
+		
 		private byte[] CreateRequest()
 		{
 			// Not sure of format yet.
