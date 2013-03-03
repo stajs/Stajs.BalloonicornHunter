@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stajs.BalloonicornHunter.Core", "Stajs.BalloonicornHunter.Core\Stajs.BalloonicornHunter.Core.csproj", "{32374DC6-BFD1-4F95-8C47-702F35D054C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stajs.BalloonicornHunter.CommandLine", "Stajs.BalloonicornHunter.CommandLine\Stajs.BalloonicornHunter.CommandLine.csproj", "{23B5695C-4EBC-4066-AB42-2F35D6A47CFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32374DC6-BFD1-4F95-8C47-702F35D054C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32374DC6-BFD1-4F95-8C47-702F35D054C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32374DC6-BFD1-4F95-8C47-702F35D054C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32374DC6-BFD1-4F95-8C47-702F35D054C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23B5695C-4EBC-4066-AB42-2F35D6A47CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23B5695C-4EBC-4066-AB42-2F35D6A47CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23B5695C-4EBC-4066-AB42-2F35D6A47CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23B5695C-4EBC-4066-AB42-2F35D6A47CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
