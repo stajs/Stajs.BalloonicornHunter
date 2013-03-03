@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Stajs.BalloonicornHunter.Core.MasterServer;
 
 namespace Stajs.BalloonicornHunter.CommandLine
 {
@@ -10,8 +7,11 @@ namespace Stajs.BalloonicornHunter.CommandLine
 	{
 		static void Main(string[] args)
 		{
+			var query = new MasterServerQuery();
+			query.GetServers();
+
 			Console.WriteLine("I'm ah gonna get you...");
-			Console.ReadKey();
+			//Console.ReadKey();
 		}
 	}
 }
