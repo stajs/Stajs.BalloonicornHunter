@@ -11,7 +11,7 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			query.GetServers();
 
 			Console.WriteLine("I'm ah gonna get you...");
-			Console.ReadKey();
+			//Console.ReadKey();
 		}
 	}
 }
