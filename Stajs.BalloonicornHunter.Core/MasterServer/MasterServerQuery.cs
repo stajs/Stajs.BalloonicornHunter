@@ -45,41 +45,26 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 		private List<IPEndPoint> Parse(byte[] bytes)
 		{
-			// Header
-			bytes = bytes.RemoveFromStart(6);
-			// Debug
-			var hex = BitConverter.ToString(bytes);
+			const int headerLength = 6;
+			const int ipEndPointLength = 6;
 
-			var servers = new List<string>();
+			// Header
+			// TODO: verify header
+			bytes = bytes.RemoveFromStart(headerLength);
+
+			var servers = new List<IPEndPoint>();
 			
 			while (bytes.Length > 0)
 			{
-				var sb = new StringBuilder();
-				sb.AppendFormat("{0}.", bytes.ToIpAddressOctet());
-				bytes = bytes.RemoveFromStart(1);
-				hex = BitConverter.ToString(bytes);
-
-				sb.AppendFormat("{0}.", bytes.ToIpAddressOctet());
-				bytes = bytes.RemoveFromStart(1);
-				hex = BitConverter.ToString(bytes);
-
-				sb.AppendFormat("{0}.", bytes.ToIpAddressOctet());
-				bytes = bytes.RemoveFromStart(1);
-				hex = BitConverter.ToString(bytes);
-
-				sb.AppendFormat("{0}:", bytes.ToIpAddressOctet());
-				bytes = bytes.RemoveFromStart(1);
-				hex = BitConverter.ToString(bytes);
-
-				sb.Append(bytes.ToIpAddressPort());
-				bytes = bytes.RemoveFromStart(2);
-				hex = BitConverter.ToString(bytes);
-
-				servers.Add(sb.ToString());
+				var server = bytes.Take(ipEndPointLength).ToIPEndPoint();
+				servers.Add(server);
+				bytes = bytes.RemoveFromStart(ipEndPointLength);
 			}
 
-			// Hacking!
-			return null;
+			//Debug
+			var debug = servers.GroupBy(x => x.Port).Select(g => new { Port = g.Key, Count = g.Select(l => l.Port).Count()}).OrderByDescending(y => y.Count);
+
+			return servers;
 		}
 		
 		private byte[] CreateRequest()
