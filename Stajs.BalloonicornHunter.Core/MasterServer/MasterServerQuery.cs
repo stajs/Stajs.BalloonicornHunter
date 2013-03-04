@@ -16,9 +16,10 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 		public List<IPEndPoint> GetServers()
 		{
-			//208.64.200.39:27011
-			//208.64.200.65:27015
-			//208.64.200.52:27011
+			// Master servers
+			// 208.64.200.39:27011
+			// 208.64.200.65:27015
+			// 208.64.200.52:27011
 
 			var request = CreateRequest();
 

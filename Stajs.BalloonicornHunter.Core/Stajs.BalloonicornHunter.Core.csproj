@@ -45,6 +45,9 @@
     <Compile Include="MasterServer\MasterServerRequest.cs" />
     <Compile Include="MasterServer\Region.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\InfoRequest.cs" />
+    <Compile Include="Server\InfoResponse.cs" />
+    <Compile Include="Server\ServerQuery.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

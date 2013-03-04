@@ -29,28 +29,11 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			RequestType = 0x31;
 			StartServer = startServer;
 			Region = Region.Australia;
-			Filter = @"\gamedata\wat"; // Debugging
+			Filter = @"\gamedir\tf\map\sd_doomsday"; // Debugging
 		}
 
 		public byte[] ToBytes()
 		{
-			/* Example
-				var bytes = new byte[13];
-				bytes[0] = 0x31;
-				bytes[1] = 0x05;
-				bytes[2] = 0x30;
-				bytes[3] = 0x2E;
-				bytes[4] = 0x30;
-				bytes[5] = 0x2E;
-				bytes[6] = 0x30;
-				bytes[7] = 0x2E;
-				bytes[8] = 0x30;
-				bytes[9] = 0x3A;
-				bytes[10] = 0x30;
-				bytes[11] = 0x00;
-				bytes[12] = 0x00;
-			 */
-
 			const int typeLength = 1;
 			const int regionLength = 1;
 			const int nullTerminatorLength = 1;
@@ -84,12 +67,9 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			i++;
 
 			if (filter.Any())
-			{
 				filter.CopyTo(bytes, i);
-				i++;
-			}
-
-			bytes[i] = nullTerminator;
+			else
+				bytes[i] = nullTerminator;
 
 			return bytes;
 		}
