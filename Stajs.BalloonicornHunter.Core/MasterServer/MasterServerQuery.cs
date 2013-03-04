@@ -12,6 +12,8 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
 	public class MasterServerQuery
 	{
+		private const int HeaderLength = 6;
+
 		public List<IPEndPoint> GetServers()
 		{
 			//208.64.200.39:27011
@@ -33,12 +35,10 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 		private List<IPEndPoint> Parse(byte[] bytes)
 		{
-			const int headerLength = 6;
 			const int ipEndPointLength = 6;
 
-			// Header
-			// TODO: verify header
-			bytes = bytes.RemoveFromStart(headerLength);
+			VerifyHeader(bytes);
+			bytes = bytes.RemoveFromStart(HeaderLength);
 
 			var servers = new List<IPEndPoint>();
 			
@@ -51,7 +51,14 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 			return servers;
 		}
-		
+
+		private void VerifyHeader(IEnumerable<byte> bytes)
+		{
+			const string expectedHeader = "FF-FF-FF-FF-66-0A";
+			var header = BitConverter.ToString(bytes.Take(HeaderLength).ToArray());
+			Debug.Assert(header == expectedHeader);
+		}
+
 		private byte[] CreateRequest()
 		{
 			var request = new MasterServerRequest();
