@@ -13,7 +13,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 		public byte RequestType { get; private set; }
 		public Region Region { get; private set; }
 		public IPEndPoint StartServer { get; private set; }
-		public string Filter { get; set; }
+		public string Filter { get; private set; }
 
 		public MasterServerRequest() : this("0.0.0.0", 0)
 		{
@@ -29,6 +29,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			RequestType = 0x31;
 			StartServer = startServer;
 			Region = Region.Australia;
+			Filter = @"\gamedata\wat"; // Debugging
 		}
 
 		public byte[] ToBytes()
