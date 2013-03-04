@@ -72,7 +72,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			// Not sure of format yet.
 			var bytes = new byte[13];
 			bytes[0] = 0x31;
-			bytes[1] = 0xFF;
+			bytes[1] = 0x05;
 			bytes[2] = 0x30;
 			bytes[3] = 0x2E;
 			bytes[4] = 0x30;
