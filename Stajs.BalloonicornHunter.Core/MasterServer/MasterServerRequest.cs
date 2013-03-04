@@ -10,8 +10,8 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
 	public class MasterServerRequest
 	{
-		public byte Type { get { return 0x31; } }
-		public byte Region { get { return 0x05; } } // Australia
+		public byte RequestType { get; private set; }
+		public Region Region { get; private set; }
 		public IPEndPoint StartServer { get; private set; }
 		public string Filter { get; set; }
 
@@ -26,7 +26,9 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 		public MasterServerRequest(IPEndPoint startServer)
 		{
 			Debug.Assert(startServer != null);
+			RequestType = 0x31;
 			StartServer = startServer;
+			Region = Region.Australia;
 		}
 
 		public byte[] ToBytes()
@@ -68,10 +70,10 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			var bytes = new byte[totalLength];
 			var i = 0;
 
-			bytes[i] = Type;
+			bytes[i] = RequestType;
 			i++;
 
-			bytes[i] = Region;
+			bytes[i] = (byte) Region;
 			i++;
 
 			ipAddress.CopyTo(bytes, i);
