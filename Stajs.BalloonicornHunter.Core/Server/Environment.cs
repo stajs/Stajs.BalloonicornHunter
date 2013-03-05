@@ -8,7 +8,8 @@ namespace Stajs.BalloonicornHunter.Core.Server
 {
 	public enum Environment
 	{
-		Linux = 108, // 'l'
-		Windows = 119 // 'w'
+							// Ascii
+		Linux = 108,	// 'l'
+		Windows = 119	// 'w'
 	}
 }

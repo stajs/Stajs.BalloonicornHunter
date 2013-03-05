@@ -8,8 +8,9 @@ namespace Stajs.BalloonicornHunter.Core.Server
 {
 	public enum ServerType
 	{
-		Dedicated = 100, // 'd'
-		NonDedicated = 108, // 'l'
-		Hltv = 112 // 'p'
+									// Ascii
+		Dedicated = 100,		// 'd'
+		NonDedicated = 108,	// 'l'
+		Hltv = 112				// 'p'
 	}
 }

@@ -11,7 +11,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 	{
 		public ResponseFormat ResponseFormat { get; private set; }
 		public string Header { get; private set; }
-		public string Protocol { get; private set; }
+		public byte Protocol { get; private set; }
 		public string Name { get; private set; }
 		public string Map { get; private set; }
 		public string Folder { get; private set; }
@@ -43,7 +43,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			Header = bytes.ReadString(1);
 			bytes = bytes.RemoveFromStart(1);
 
-			Protocol = bytes.ReadHex();
+			Protocol = bytes[0];
 			bytes = bytes.RemoveFromStart(1);
 
 			Name = bytes.ReadStringUntilNullTerminator();
