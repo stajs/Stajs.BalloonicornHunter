@@ -12,12 +12,28 @@ namespace Stajs.BalloonicornHunter.Core.Extensions
 			return BitConverter.ToInt32(bytes, 0);
 		}
 
-		internal static int ReadByte(this byte[] bytes)
+		internal static short ReadInt16(this byte[] bytes)
 		{
-			return BitConverter.ToInt32(bytes, 0);
+			return BitConverter.ToInt16(bytes, 0);
 		}
 
-		internal static string ReadString(this byte[] bytes)
+		internal static string ReadHex(this byte[] bytes)
+		{
+			return BitConverter.ToString(bytes, 0, 1);
+		}
+
+		internal static bool ReadBoolean(this byte[] bytes)
+		{
+			return BitConverter.ToBoolean(bytes, 0);
+		}
+
+		internal static string ReadString(this byte[] bytes, int length)
+		{
+			var subArray = bytes.Take(length).ToArray();
+			return Encoding.UTF8.GetString(subArray);
+		}
+
+		internal static string ReadStringUntilNullTerminator(this byte[] bytes)
 		{
 			const byte nullTerminator = 0x00;
 			var subArray = bytes.TakeWhile(b => b != nullTerminator).ToArray();
@@ -26,9 +42,6 @@ namespace Stajs.BalloonicornHunter.Core.Extensions
 
 		internal static byte[] RemoveFromStart(this byte[] bytes, int count)
 		{
-			if (count > bytes.Length)
-				return bytes;
-
 			return bytes
 				.Skip(count)
 				.ToArray();

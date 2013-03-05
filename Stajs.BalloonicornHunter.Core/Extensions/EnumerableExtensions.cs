@@ -13,30 +13,18 @@ namespace Stajs.BalloonicornHunter.Core.Extensions
 			Debug.Assert(array.Length == 6);
 
 			var ipAddressArray = array
-				.Take(4);
+				.Take(4)
+				.ToArray();
 
 			var portArray = array
 				.Skip(4)
-				.Take(2);
+				.Take(2)
+				.ToArray();
 
-			var ipAddress = ipAddressArray.ToIpAddress();
-			var port = portArray.ToPort();
+			var ipAddress = new IPAddress(ipAddressArray);
+			var port = (portArray[0] << 8) | portArray[1];
 			
 			return new IPEndPoint(ipAddress, port);
-		}
-
-		private static IPAddress ToIpAddress(this IEnumerable<byte> bytes)
-		{
-			var array = bytes.ToArray();
-			Debug.Assert(array.Length == 4);
-			return new IPAddress(array);
-		}
-
-		private static int ToPort(this IEnumerable<byte> bytes)
-		{
-			var array = bytes.ToArray();
-			Debug.Assert(array.Length == 2);
-			return (array[0] << 8) | array[1];
 		}
 	}
 }
