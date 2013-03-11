@@ -28,9 +28,9 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 				udpClient.Send(request, request.Length);
 
 				var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-				var receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
+				var response = udpClient.Receive(ref remoteIpEndPoint);
 
-				return Parse(receiveBytes);
+				return Parse(response);
 			}
 		}
 

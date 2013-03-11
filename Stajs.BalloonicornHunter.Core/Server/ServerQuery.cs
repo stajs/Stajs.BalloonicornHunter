@@ -30,9 +30,6 @@ namespace Stajs.BalloonicornHunter.Core.Server
 				var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 				var bytesReceived = udpClient.Receive(ref remoteIpEndPoint);
 
-				// Debugging
-				var s = Encoding.UTF8.GetString(bytesReceived);
-
 				response = new InfoResponse(bytesReceived);
 			}
 
