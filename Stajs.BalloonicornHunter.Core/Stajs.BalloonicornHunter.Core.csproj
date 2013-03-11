@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\UdpClientExtensions.cs" />
+    <Compile Include="MasterServer\MasterServerResponse.cs" />
     <Compile Include="MasterServer\MasterServerQuery.cs" />
     <Compile Include="MasterServer\MasterServerRequest.cs" />
     <Compile Include="MasterServer\Region.cs" />
