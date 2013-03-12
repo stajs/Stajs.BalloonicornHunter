@@ -5,14 +5,16 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Stajs.BalloonicornHunter.Core.MasterServer;
+using Stajs.BalloonicornHunter.Core.Server;
 
 namespace Stajs.BalloonicornHunter.Core.Extensions
 {
 	public static class UdpClientExtensions
 	{
-		public static int Send(this UdpClient udpClient, MasterServerRequest request)
+		public static int Send(this UdpClient udpClient, IServerRequest request)
 		{
-			return udpClient.Send(request.ToBytes(), request.ToBytes().Length);
+			var bytes = request.ToBytes();
+			return udpClient.Send(bytes, bytes.Length);
 		}
 	}
 }

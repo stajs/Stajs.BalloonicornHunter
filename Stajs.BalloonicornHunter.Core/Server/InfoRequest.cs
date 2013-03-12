@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Stajs.BalloonicornHunter.Core.Server
 {
-	public class InfoRequest
+	public class InfoRequest : IServerRequest
 	{
-		public byte[] GetBytes()
+		public byte[] ToBytes()
 		{
 			var request = new List<byte>();
 			request.AddRange(new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x54 });

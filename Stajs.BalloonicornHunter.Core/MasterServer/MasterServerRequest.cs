@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
-	public class MasterServerRequest
+	public class MasterServerRequest : IServerRequest
 	{
 		public byte RequestType { get; private set; }
 		public Region Region { get; private set; }

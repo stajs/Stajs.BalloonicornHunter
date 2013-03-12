@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Stajs.BalloonicornHunter.Core.Extensions;
 
 namespace Stajs.BalloonicornHunter.Core.Server
 {
@@ -20,18 +21,13 @@ namespace Stajs.BalloonicornHunter.Core.Server
 		public InfoResponse GetInfo()
 		{
 			var request = new InfoRequest();
-			InfoResponse response;
+			var udpClient = new UdpClient(_server.Address.ToString(), _server.Port);
+			udpClient.Send(request);
 
-			using (var udpClient = new UdpClient(_server.Address.ToString(), _server.Port))
-			{
-				var bytesToSend = request.GetBytes();
-				udpClient.Send(bytesToSend, bytesToSend.Length);
+			var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+			var bytesReceived = udpClient.Receive(ref remoteIpEndPoint);
 
-				var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-				var bytesReceived = udpClient.Receive(ref remoteIpEndPoint);
-
-				response = new InfoResponse(bytesReceived);
-			}
+			var response = new InfoResponse(bytesReceived);
 
 			return response;
 		}

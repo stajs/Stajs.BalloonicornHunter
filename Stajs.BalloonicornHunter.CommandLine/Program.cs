@@ -13,10 +13,11 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			var servers = masterServerQuery.GetServers();
 
 			var serverQuery = new ServerQuery(servers.First());
-			serverQuery.GetInfo();
+			var info = serverQuery.GetInfo();
 
 			Console.WriteLine("I'm ah gonna get you...");
-			//Console.ReadKey();
+			Console.WriteLine(info.Name);
+			Console.ReadKey();
 		}
 	}
 }
