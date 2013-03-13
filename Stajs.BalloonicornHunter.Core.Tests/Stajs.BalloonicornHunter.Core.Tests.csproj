@@ -52,8 +52,14 @@
   <ItemGroup>
     <Compile Include="ExampleResponses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Stajs.BalloonicornHunter.Core\Stajs.BalloonicornHunter.Core.csproj">
+      <Project>{32374DC6-BFD1-4F95-8C47-702F35D054C3}</Project>
+      <Name>Stajs.BalloonicornHunter.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

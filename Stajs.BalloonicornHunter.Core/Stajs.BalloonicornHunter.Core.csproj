@@ -48,6 +48,9 @@
     <Compile Include="MasterServer\MasterServerRequest.cs" />
     <Compile Include="MasterServer\Region.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Player.cs" />
+    <Compile Include="Server\PlayerResponse.cs" />
+    <Compile Include="Server\PlayerRequest.cs" />
     <Compile Include="Server\Environment.cs" />
     <Compile Include="Server\InfoRequest.cs" />
     <Compile Include="Server\InfoResponse.cs" />

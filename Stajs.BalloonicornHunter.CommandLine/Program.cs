@@ -14,6 +14,7 @@ namespace Stajs.BalloonicornHunter.CommandLine
 
 			var serverQuery = new ServerQuery(servers.First());
 			var info = serverQuery.GetInfo();
+			//var players = serverQuery.GetPlayers();
 
 			Console.WriteLine("I'm ah gonna get you...");
 			Console.WriteLine(info.Name);

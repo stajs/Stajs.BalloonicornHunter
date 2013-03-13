@@ -18,16 +18,29 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			_server = server;
 		}
 
-		public InfoResponse GetInfo()
+		private byte[] GetResponseBytes(IServerRequest request)
 		{
-			var request = new InfoRequest();
 			var udpClient = new UdpClient(_server.Address.ToString(), _server.Port);
 			udpClient.Send(request);
 
 			var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 			var bytesReceived = udpClient.Receive(ref remoteIpEndPoint);
 
+			return bytesReceived;
+		}
+
+		public InfoResponse GetInfo()
+		{
+			var bytesReceived = GetResponseBytes(new InfoRequest());
 			var response = new InfoResponse(bytesReceived);
+
+			return response;
+		}
+
+		public PlayerResponse GetPlayers()
+		{
+			var bytesReceived = GetResponseBytes(new PlayerRequest());
+			var response = new PlayerResponse(bytesReceived);
 
 			return response;
 		}
