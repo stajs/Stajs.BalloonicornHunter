@@ -29,7 +29,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			RequestType = 0x31;
 			StartServer = startServer;
 			Region = Region.Australia;
-			Filter = @"\gamedir\tf\map\sd_doomsday"; // Debugging
+			Filter = @"\gamedir\tf\empty\1"; // Debugging
 		}
 
 		public byte[] ToBytes()

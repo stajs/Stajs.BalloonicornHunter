@@ -37,9 +37,25 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			return response;
 		}
 
+		public ChallengeResponse GetChallenge()
+		{
+			var bytesReceived = GetResponseBytes(new ChallengeRequest());
+			var response = new ChallengeResponse(bytesReceived);
+
+			return response;
+		}
+
 		public PlayerResponse GetPlayers()
 		{
 			var bytesReceived = GetResponseBytes(new PlayerRequest());
+			var response = new PlayerResponse(bytesReceived);
+
+			return response;
+		}
+
+		public PlayerResponse GetPlayers(ChallengeResponse challenge)
+		{
+			var bytesReceived = GetResponseBytes(new PlayerRequest(challenge.Token));
 			var response = new PlayerResponse(bytesReceived);
 
 			return response;

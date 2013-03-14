@@ -17,11 +17,6 @@ namespace Stajs.BalloonicornHunter.Core.Extensions
 			return BitConverter.ToInt16(bytes, 0);
 		}
 
-		internal static long ReadInt64(this byte[] bytes)
-		{
-			return BitConverter.ToInt64(bytes, 0);
-		}
-
 		internal static float ReadSingle(this byte[] bytes)
 		{
 			return BitConverter.ToSingle(bytes, 0);
@@ -47,6 +42,14 @@ namespace Stajs.BalloonicornHunter.Core.Extensions
 		{
 			const byte nullTerminator = 0x00;
 			var subArray = bytes.TakeWhile(b => b != nullTerminator).ToArray();
+			return Encoding.UTF8.GetString(subArray);
+		}
+
+		public static string ReadStringUntilNullTerminator(this byte[] bytes, out int length)
+		{
+			const byte nullTerminator = 0x00;
+			var subArray = bytes.TakeWhile(b => b != nullTerminator).ToArray();
+			length = subArray.Length;
 			return Encoding.UTF8.GetString(subArray);
 		}
 

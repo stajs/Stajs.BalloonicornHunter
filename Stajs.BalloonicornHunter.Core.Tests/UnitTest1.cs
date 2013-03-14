@@ -10,7 +10,7 @@ namespace Stajs.BalloonicornHunter.Core.Tests
 		[TestMethod]
 		public void TestMethod1()
 		{
-			var playerResponse = new PlayerResponse(ExampleResponses.PlayerResponse);
+			var playerResponse = new PlayerResponse(Convert.FromBase64String(ExampleResponses.PlayerResponse));
 		}
 	}
 }
