@@ -12,10 +12,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 {
 	public class PlayerResponse
 	{
-		public byte[] Bytes { get; private set; }
-		public string Hex { get; private set; }
-		public string Base64 { get; private set; }
-		public string RawString { get; private set; }
+		public RawResponse RawResponse { get; private set; }
 
 		public ResponseFormat ResponseFormat { get; private set; }
 		public string Header { get; private set; }
@@ -24,10 +21,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		public PlayerResponse(byte[] bytes)
 		{
-			Bytes = bytes;
-			Hex = BitConverter.ToString(bytes);
-			Base64 = Convert.ToBase64String(bytes);
-			RawString = Encoding.UTF8.GetString(bytes);
+			RawResponse = new RawResponse(bytes);
 			Parse(bytes);
 		}
 

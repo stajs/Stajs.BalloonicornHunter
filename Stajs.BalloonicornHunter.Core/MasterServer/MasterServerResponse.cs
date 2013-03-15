@@ -13,17 +13,13 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 	{
 		private const int HeaderLength = 6;
 
-		public byte[] Bytes { get; private set; }
-		public string Hex { get; private set; }
-		public string Base64 { get; private set; }
+		public RawResponse RawResponse { get; private set; }
 
 		public List<IPEndPoint> Servers { get; private set; }
 
 		public MasterServerResponse(byte[] bytes)
 		{
-			Bytes = bytes;
-			Hex = BitConverter.ToString(bytes);
-			Base64 = Convert.ToBase64String(bytes);
+			RawResponse = new RawResponse(bytes);
 			Servers = Parse(bytes);
 		}
 
