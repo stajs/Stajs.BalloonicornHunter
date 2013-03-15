@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Stajs.BalloonicornHunter.Core.MasterServer.Filters;
 
 namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
@@ -13,17 +14,17 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 		public byte RequestType { get; private set; }
 		public Region Region { get; private set; }
 		public IPEndPoint StartServer { get; private set; }
-		public string Filter { get; private set; }
+		public Filter Filter { get; set; }
 
-		public MasterServerRequest() : this("0.0.0.0", 0)
+		public MasterServerRequest(Filter filter) : this("0.0.0.0", 0, filter)
 		{
 		}
 
-		public MasterServerRequest(string ipAddress, int port) : this(new IPEndPoint(IPAddress.Parse(ipAddress), port))
+		public MasterServerRequest(string ipAddress, int port, Filter filter) : this(new IPEndPoint(IPAddress.Parse(ipAddress), port), filter)
 		{
 		}
 
-		public MasterServerRequest(IPEndPoint startServer)
+		public MasterServerRequest(IPEndPoint startServer, Filter filter)
 		{
 			if (startServer == null)
 				throw new ArgumentNullException("startServer", "Starting server can not be null.");
@@ -31,7 +32,8 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			RequestType = 0x31;
 			StartServer = startServer;
 			Region = Region.Australia;
-			Filter = @"\gamedir\tf\empty\1"; // Debugging
+			Filter = filter ?? new Filter();
+			//Filter = @"\gamedir\tf\empty\1"; // Debugging
 		}
 
 		public byte[] ToBytes()
@@ -44,7 +46,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			var utf = new UTF8Encoding();
 
 			var ipAddress = utf.GetBytes(StartServer.ToString());
-			var filter = utf.GetBytes(Filter ?? string.Empty);
+			var filter = utf.GetBytes(Filter.ToString());
 
 			var totalLength = typeLength
 				+ regionLength

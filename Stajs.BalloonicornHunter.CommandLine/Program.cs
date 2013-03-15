@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using Stajs.BalloonicornHunter.Core.MasterServer;
+using Stajs.BalloonicornHunter.Core.MasterServer.Filters;
 using Stajs.BalloonicornHunter.Core.Server;
 
 namespace Stajs.BalloonicornHunter.CommandLine
@@ -11,15 +12,23 @@ namespace Stajs.BalloonicornHunter.CommandLine
 	{
 		static void Main(string[] args)
 		{
+			var filter = new Filter
+			{
+				Game = Game.TeamFortress2,
+				IsNotEmpty = true,
+				Map = "pl_goldrush"
+			};
+
 			var masterServerQuery = new MasterServerQuery();
-			var servers = masterServerQuery.GetServers();
+			var servers = masterServerQuery.GetServers(filter);
 
 			var serverQuery = new ServerQuery(null);
 
+			InfoResponse info;
 			foreach (var server in servers)
 			{
 				serverQuery = new ServerQuery(server);
-				var info = serverQuery.GetInfo();
+				info = serverQuery.GetInfo();
 				if (info.Players > 0)
 					break;
 			}
