@@ -11,24 +11,21 @@ namespace Stajs.BalloonicornHunter.CommandLine
 	{
 		static void Main(string[] args)
 		{
-			var test = new PlayerResponse();
-			return;
+			var masterServerQuery = new MasterServerQuery();
+			var servers = masterServerQuery.GetServers();
 
-			//var masterServerQuery = new MasterServerQuery();
-			//var servers = masterServerQuery.GetServers();
+			var serverQuery = new ServerQuery(null);
 
-			//var serverQuery = new ServerQuery(null);
+			foreach (var server in servers)
+			{
+				serverQuery = new ServerQuery(server);
+				var info = serverQuery.GetInfo();
+				if (info.Players > 0)
+					break;
+			}
 
-			//foreach (var server in servers)
-			//{
-			//	serverQuery = new ServerQuery(server);
-			//	var info = serverQuery.GetInfo();
-			//	if (info.Players > 0)
-			//		break;
-			//}
-
-			//var challenge = serverQuery.GetChallenge();
-			//var players = serverQuery.GetPlayers(challenge);
+			var challenge = serverQuery.GetChallenge();
+			var players = serverQuery.GetPlayers(challenge);
 
 			Console.WriteLine("I'm ah gonna get you...");
 			//Console.WriteLine(info.Name);
