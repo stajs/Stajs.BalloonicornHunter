@@ -47,6 +47,7 @@
     <Compile Include="IServerRequest.cs" />
     <Compile Include="MasterServer\Filters\Filter.cs" />
     <Compile Include="MasterServer\Filters\Game.cs" />
+    <Compile Include="MasterServer\Filters\Map.cs" />
     <Compile Include="MasterServer\MasterServerResponse.cs" />
     <Compile Include="MasterServer\MasterServerQuery.cs" />
     <Compile Include="MasterServer\MasterServerRequest.cs" />

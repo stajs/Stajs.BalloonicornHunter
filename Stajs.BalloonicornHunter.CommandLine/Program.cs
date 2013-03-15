@@ -15,29 +15,21 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			var filter = new Filter
 			{
 				Game = Game.TeamFortress2,
-				IsNotEmpty = true,
-				Map = "pl_goldrush"
+				IsNotFull = true,
+				HasPlayers = true,
+				IsVacProtected = true,
+				Map = Map.Doomsday
 			};
 
 			var masterServerQuery = new MasterServerQuery();
 			var servers = masterServerQuery.GetServers(filter);
-
-			var serverQuery = new ServerQuery(null);
-
-			InfoResponse info;
-			foreach (var server in servers)
-			{
-				serverQuery = new ServerQuery(server);
-				info = serverQuery.GetInfo();
-				if (info.Players > 0)
-					break;
-			}
-
+			var serverQuery = new ServerQuery(servers.First());
+			var info = serverQuery.GetInfo();
 			var challenge = serverQuery.GetChallenge();
 			var players = serverQuery.GetPlayers(challenge);
 
 			Console.WriteLine("I'm ah gonna get you...");
-			//Console.WriteLine(info.Name);
+			Console.WriteLine(info.Name);
 			Console.ReadKey();
 		}
 	}

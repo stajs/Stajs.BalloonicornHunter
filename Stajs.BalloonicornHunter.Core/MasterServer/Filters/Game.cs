@@ -8,6 +8,6 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 		TeamFortress2,
 
 		[Description(@"\gamedir\cstrike")]
-		CounterStrike
+		CounterStrikeSource
 	}
 }
