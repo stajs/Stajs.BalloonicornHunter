@@ -25,7 +25,9 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 		public MasterServerRequest(IPEndPoint startServer)
 		{
-			Debug.Assert(startServer != null);
+			if (startServer == null)
+				throw new ArgumentNullException("startServer", "Starting server can not be null.");
+
 			RequestType = 0x31;
 			StartServer = startServer;
 			Region = Region.Australia;
