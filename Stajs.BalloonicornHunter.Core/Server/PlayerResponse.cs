@@ -36,6 +36,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			Header = bytes.ReadString(1);
 			bytes = bytes.RemoveFromStart(1);
 
+			PlayerCount = bytes[0];
 			bytes = bytes.RemoveFromStart(1);
 
 			Players = new List<Player>();
