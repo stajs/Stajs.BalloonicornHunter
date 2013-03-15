@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stajs.BalloonicornHunter.Core.Exceptions;
 using Stajs.BalloonicornHunter.Core.Extensions;
 
 namespace Stajs.BalloonicornHunter.Core.Server
@@ -67,6 +68,9 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 				player.Index = bytes[0];
 				bytes = bytes.RemoveFromStart(1);
+
+				if (player.Index != 0)
+					throw new HolyShitException("Player index is used!");
 
 				s = Encoding.UTF8.GetString(bytes);
 
