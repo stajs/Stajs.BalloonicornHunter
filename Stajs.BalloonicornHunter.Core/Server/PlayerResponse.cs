@@ -65,7 +65,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 				Players.Add(player);
 			}
 			
-			Debug.Assert(bytes.Length == 0);
+			Debug.Assert(!bytes.Any());
 		}
 	}
 }
