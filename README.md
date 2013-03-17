@@ -16,25 +16,35 @@ Visual Studio 2012
 
 ### Valve Master Servers
 
-Query the master servers and get a bunch of game servers back.
+Query the master servers and get a bunch of game servers back. Restrict results by region and filters (e.g. game, map, etc).
 
-* Restrict results by region and filters (e.g. game, map, etc).
-* Multi-packet responses are not supported.
+##### Note
+
+Multi-packet responses are not supported.
 
 ### Game Servers
 
-Query a game server.
-
 #### Info
+Get information about a server, including:
 
-* Mostly complete responses, but some details (e.g. extra data) are ignored for now.
-* Multi-packet responses are not supported.
+* Name
+* Game
+* Map
+* Number of players
+* Maximum number of players
+* Number of bots
+* Password protected
+* VAC protected
 
-### Challenge
+##### Note
+
+Mostly complete responses, but some details (e.g. extra data) are ignored for now. Multi-packet responses are not supported.
+
+#### Challenge
 
 Get a token from a game server (needed for further queries).
 
-### Players
+#### Players
 
 Get a list of players on a server, including:
 
