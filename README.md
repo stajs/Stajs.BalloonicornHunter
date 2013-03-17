@@ -18,17 +18,29 @@ Visual Studio 2012
 
 Query the master servers and get a bunch of game servers back.
 
-* Restrict results by region and filters (e.g. game, map, etc). These are hard-coded to look for TF2 game servers.
+* Restrict results by region and filters (e.g. game, map, etc).
 * Multi-packet responses are not supported.
 
 ### Game Servers
 
-#### Info
+Query a game server.
 
-Query a game server and get server info back.
+#### Info
 
 * Mostly complete responses, but some details (e.g. extra data) are ignored for now.
 * Multi-packet responses are not supported.
+
+### Challenge
+
+Get a token from a game server (needed for further queries).
+
+### Players
+
+Get a list of players on a server, including:
+
+* Name
+* Score
+* Duration (time connected to server)
 
 ## Usage
 
