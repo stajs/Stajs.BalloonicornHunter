@@ -15,10 +15,7 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			var filter = new Filter
 			{
 				Game = Game.TeamFortress2,
-				IsNotFull = true,
-				HasPlayers = true,
-				IsVacProtected = true,
-				Map = Map.Doomsday
+				HasPlayers = true
 			};
 
 			var masterServerQuery = new MasterServerQuery();
