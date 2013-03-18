@@ -56,6 +56,22 @@ Get a list of players on a server, including:
 
 Uh, there is a command line app...? But really, you should be running this out of Visual Studio if you want to see things work.
 
+	var filter = new Filter
+	{
+		Game = Game.TeamFortress2,
+		HasPlayers = true
+	};
+
+	var masterServerQuery = new MasterServerQuery();
+	var servers = masterServerQuery.GetServers(filter);
+	var serverQuery = new ServerQuery(servers.First());
+	var info = serverQuery.GetInfo();
+	var challenge = serverQuery.GetChallenge();
+	var players = serverQuery.GetPlayers(challenge);
+
+	Console.WriteLine("I'm ah gonna get you...");
+	Console.WriteLine(players.First().Name);
+
 ## Roadmap
 
 Perhaps an actual front-end?
