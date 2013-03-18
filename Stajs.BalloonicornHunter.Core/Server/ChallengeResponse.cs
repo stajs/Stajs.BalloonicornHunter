@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stajs.BalloonicornHunter.Core.Exceptions;
 using Stajs.BalloonicornHunter.Core.Extensions;
 
 namespace Stajs.BalloonicornHunter.Core.Server
@@ -24,6 +25,8 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		private void Parse(byte[] bytes)
 		{
+			const string expectedHeader = "A";
+
 			ResponseFormat = (ResponseFormat) bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);
 
@@ -32,6 +35,9 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			
 			Header = bytes.ReadString(1);
 			bytes = bytes.RemoveFromStart(1);
+
+			if (Header != expectedHeader)
+				throw new ResponseHeaderException();
 
 			Token = bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);

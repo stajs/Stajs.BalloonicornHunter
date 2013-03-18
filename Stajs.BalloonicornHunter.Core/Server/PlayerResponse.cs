@@ -27,6 +27,8 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		private void Parse(byte[] bytes)
 		{
+			const string expectedHeader = "D";
+
 			ResponseFormat = (ResponseFormat) bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);
 
@@ -35,6 +37,9 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			
 			Header = bytes.ReadString(1);
 			bytes = bytes.RemoveFromStart(1);
+
+			if (Header != expectedHeader)
+				throw new ResponseHeaderException();
 
 			PlayerCount = bytes[0];
 			bytes = bytes.RemoveFromStart(1);

@@ -5,14 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Stajs.BalloonicornHunter.Core.Exceptions;
 using Stajs.BalloonicornHunter.Core.Extensions;
 
 namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
 	public class MasterServerResponse
 	{
-		private const int HeaderLength = 6;
-
 		public RawResponse RawResponse { get; private set; }
 
 		public List<IPEndPoint> Servers { get; private set; }
@@ -25,10 +24,16 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 		private List<IPEndPoint> Parse(byte[] bytes)
 		{
-			const int ipEndPointLength = 6;
+			const int headerLength = 6;
+			var expectedHeader = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x66, 0x0A };
+			var header = bytes.Take(headerLength).ToArray();
 
-			VerifyHeader(bytes);
-			bytes = bytes.RemoveFromStart(HeaderLength);
+			if (!header.SequenceEqual(expectedHeader))
+				throw new ResponseHeaderException();
+			
+			bytes = bytes.RemoveFromStart(headerLength);
+
+			const int ipEndPointLength = 6;
 
 			var servers = new List<IPEndPoint>();
 
@@ -40,13 +45,6 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			}
 
 			return servers;
-		}
-
-		private void VerifyHeader(IEnumerable<byte> bytes)
-		{
-			const string expectedHeader = "FF-FF-FF-FF-66-0A";
-			var header = BitConverter.ToString(bytes.Take(HeaderLength).ToArray());
-			Debug.Assert(header == expectedHeader);
 		}
 	}
 }
