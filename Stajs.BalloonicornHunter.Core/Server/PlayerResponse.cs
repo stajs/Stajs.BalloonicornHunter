@@ -72,5 +72,10 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			
 			Debug.Assert(!bytes.Any());
 		}
+
+		public override string ToString()
+		{
+			return string.Format("{0} player(s) | {1}", PlayerCount, string.Join(" | ", Players.Select(p => p.Name)));
+		}
 	}
 }

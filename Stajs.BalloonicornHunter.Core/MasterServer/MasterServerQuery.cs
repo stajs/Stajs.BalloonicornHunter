@@ -13,14 +13,20 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
 	public class MasterServerQuery
 	{
-		public List<IPEndPoint> GetServers(Filter filter)
+		private IPEndPoint _masterServer { get; set; }
+
+		public MasterServerQuery()
 		{
 			// Master servers
 			// 208.64.200.39:27011
 			// 208.64.200.65:27015
 			// 208.64.200.52:27011
+			_masterServer = new IPEndPoint(IPAddress.Parse("208.64.200.39"), 27011);
+		}
 
-			var udpClient = new UdpClient("208.64.200.39", 27011);
+		public List<IPEndPoint> GetServers(Filter filter)
+		{
+			var udpClient = new UdpClient(_masterServer.Address.ToString(), _masterServer.Port);
 			udpClient.Send(new MasterServerRequest(filter));
 
 			var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -28,6 +34,11 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			var response = new MasterServerResponse(bytes);
 
 			return response.Servers;
+		}
+
+		public override string ToString()
+		{
+			return _masterServer.ToString();
 		}
 	}
 }

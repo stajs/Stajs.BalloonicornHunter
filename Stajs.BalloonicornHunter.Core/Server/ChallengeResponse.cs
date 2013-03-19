@@ -44,5 +44,10 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 			Debug.Assert(!bytes.Any());
 		}
+
+		public override string ToString()
+		{
+			return Token.ToString();
+		}
 	}
 }

@@ -60,5 +60,10 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 			return response;
 		}
+
+		public override string ToString()
+		{
+			return _server.ToString();
+		}
 	}
 }
