@@ -12,5 +12,10 @@ namespace Stajs.BalloonicornHunter.Core.Server
 		public string Name { get; set; }
 		public int Score { get; set; }
 		public float Duration { get; set; }
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }
