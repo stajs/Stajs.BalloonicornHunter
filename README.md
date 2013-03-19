@@ -58,6 +58,7 @@ Uh, there is a command line app...? But really, you should be running this out o
 
 	var filter = new Filter
 	{
+		Region = Region.Australia,
 		Game = Game.TeamFortress2,
 		HasPlayers = true
 	};
@@ -66,11 +67,10 @@ Uh, there is a command line app...? But really, you should be running this out o
 	var servers = masterServerQuery.GetServers(filter);
 	var serverQuery = new ServerQuery(servers.First());
 	var info = serverQuery.GetInfo();
-	var challenge = serverQuery.GetChallenge();
-	var players = serverQuery.GetPlayers(challenge);
+	var players = serverQuery.GetPlayers();
 
 	Console.WriteLine("I'm ah gonna get you...");
-	Console.WriteLine(players.First().Name);
+	Console.WriteLine(info.Name);
 
 ## Roadmap
 
