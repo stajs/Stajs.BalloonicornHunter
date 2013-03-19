@@ -20,5 +20,10 @@ namespace Stajs.BalloonicornHunter.Core
 			Base64 = Convert.ToBase64String(bytes);
 			RawString = Encoding.UTF8.GetString(bytes);
 		}
+
+		public override string ToString()
+		{
+			return RawString;
+		}
 	}
 }
