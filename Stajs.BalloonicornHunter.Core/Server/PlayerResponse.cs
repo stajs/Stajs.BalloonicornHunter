@@ -16,7 +16,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		public ResponseFormat ResponseFormat { get; private set; }
 		public string Header { get; private set; }
-		public byte PlayerCount { get; private set; }
+		public int PlayerCount { get; private set; }
 		public List<Player> Players { get; private set; }
 
 		public PlayerResponse(byte[] bytes)

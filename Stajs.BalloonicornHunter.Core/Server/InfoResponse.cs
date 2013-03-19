@@ -14,21 +14,21 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		public ResponseFormat ResponseFormat { get; private set; }
 		public string Header { get; private set; }
-		public byte Protocol { get; private set; }
+		public int Protocol { get; private set; }
 		public string Name { get; private set; }
 		public string Map { get; private set; }
 		public string Folder { get; private set; }
 		public string Game { get; private set; }
-		public short Id { get; private set; }
-		public byte Players { get; private set; }
-		public byte MaxPlayers { get; private set; }
-		public byte Bots { get; private set; }
+		public int Id { get; private set; }
+		public int Players { get; private set; }
+		public int MaxPlayers { get; private set; }
+		public int Bots { get; private set; }
 		public ServerType ServerType { get; private set; }
 		public Environment Environment { get; private set; }
 		public bool RequiresPassword { get; private set; }
 		public bool IsVacProtected { get; private set; }
 		public string Version { get; private set; }
-		public byte ExtraData { get; private set; }
+		public int ExtraData { get; private set; }
 
 		public InfoResponse(byte[] bytes)
 		{
