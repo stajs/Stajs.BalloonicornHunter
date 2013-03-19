@@ -54,8 +54,6 @@ Get a list of players on a server, including:
 
 ## Usage
 
-Uh, there is a command line app...? But really, you should be running this out of Visual Studio if you want to see things work.
-
 ```c#
 var filter = new Filter
 {
