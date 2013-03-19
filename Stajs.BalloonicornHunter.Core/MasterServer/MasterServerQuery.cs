@@ -13,15 +13,20 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
 	public class MasterServerQuery
 	{
+		// Master servers
+		// 208.64.200.39:27011
+		// 208.64.200.65:27015
+		// 208.64.200.52:27011
+
 		private IPEndPoint _masterServer { get; set; }
 
-		public MasterServerQuery()
+		public MasterServerQuery() : this("208.64.200.39", 27011) { }
+		
+		public MasterServerQuery(string host, int port) : this(new IPEndPoint(IPAddress.Parse(host), port)) { }
+		
+		public MasterServerQuery(IPEndPoint masterServer)
 		{
-			// Master servers
-			// 208.64.200.39:27011
-			// 208.64.200.65:27015
-			// 208.64.200.52:27011
-			_masterServer = new IPEndPoint(IPAddress.Parse("208.64.200.39"), 27011);
+			_masterServer = masterServer;
 		}
 
 		public List<IPEndPoint> GetServers(Filter filter)
