@@ -10,11 +10,6 @@ namespace Stajs.BalloonicornHunter.Core.Server
 	{
 		private readonly int _token;
 
-		public PlayerRequest() : this(-1)
-		{
-			
-		}
-
 		public PlayerRequest(int token)
 		{
 			_token = token;
