@@ -31,9 +31,8 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 			RequestType = 0x31;
 			StartServer = startServer;
-			Region = Region.Australia;
 			Filter = filter ?? new Filter();
-			//Filter = @"\gamedir\tf\empty\1"; // Debugging
+			Region = Filter.Region ?? Region.RestOfTheWorld;
 		}
 
 		public byte[] ToBytes()
@@ -46,7 +45,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 			var utf = new UTF8Encoding();
 
 			var ipAddress = utf.GetBytes(StartServer.ToString());
-			var filter = utf.GetBytes(Filter.ToString());
+			var filter = utf.GetBytes(Filter.ToFilterString());
 
 			var totalLength = typeLength
 				+ regionLength

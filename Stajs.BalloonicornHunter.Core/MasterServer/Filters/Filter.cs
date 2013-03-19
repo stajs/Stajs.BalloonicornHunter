@@ -6,13 +6,15 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 {
 	public class Filter
 	{
+		public Region? Region { get; set; }
+
 		public Game? Game { get; set; }
 		public bool? HasPlayers { get; set; }
 		public bool? IsNotFull { get; set; }
 		public bool? IsVacProtected { get; set; }
 		public Map? Map { get; set; }
 
-		public override string ToString()
+		public string ToFilterString()
 		{
 			var sb = new StringBuilder();
 
@@ -20,10 +22,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 				sb.Append(Game.GetDescription());
 
 			if (HasPlayers.HasValue)
-				if (HasPlayers.Value)
-					sb.Append(@"\empty\1");
-				else
-					sb.Append(@"\noplayers\1");
+				sb.Append(HasPlayers.Value ? @"\empty\1" : @"\noplayers\1");
 
 			if (IsNotFull.HasValue && IsNotFull.Value)
 				sb.Append(@"\full\1");
@@ -33,6 +32,18 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 			
 			if (Map.HasValue)
 				sb.Append(Map.GetDescription());
+
+			return sb.ToString();
+		}
+
+		public override string ToString()
+		{
+			var sb = new StringBuilder();
+
+			if (Region.HasValue)
+				sb.Append(Region).Append(" - ");
+
+			sb.Append(ToFilterString());
 
 			return sb.ToString();
 		}

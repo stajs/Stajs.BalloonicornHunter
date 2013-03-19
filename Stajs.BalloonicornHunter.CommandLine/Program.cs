@@ -14,6 +14,7 @@ namespace Stajs.BalloonicornHunter.CommandLine
 		{
 			var filter = new Filter
 			{
+				Region = Region.Australia,
 				Game = Game.TeamFortress2,
 				HasPlayers = true
 			};
