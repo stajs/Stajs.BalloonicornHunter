@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Stajs.BalloonicornHunter.Core.Server
 {
-	public enum ResponseFormat
+	public class BaseServerRequest
 	{
-		Simple = -1,
-		MultiPacket = -2
+		public List<byte> GetRequest()
+		{
+			return new List<byte>(BitConverter.GetBytes((int)PacketFormat.Simple));
+		}
 	}
 }

@@ -14,7 +14,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 	{
 		public RawResponse RawResponse { get; private set; }
 
-		public ResponseFormat ResponseFormat { get; private set; }
+		public PacketFormat ResponseFormat { get; private set; }
 		public string Header { get; private set; }
 		public int PlayerCount { get; private set; }
 		public List<Player> Players { get; private set; }
@@ -27,12 +27,46 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		private void Parse(byte[] bytes)
 		{
+			/* https://developer.valvesoftware.com/wiki/Server_Queries
+			 * https://developer.valvesoftware.com/wiki/Talk:Server_queries
+			 * 
+			 *		       +---------- Players -----------+
+			 *		       v                              v
+			 *		+------+--------+--------+---+--------+
+			 *		|Header|Player 1|Player 2|...|Player n|
+			 *		+------+--------+--------+---+--------+
+			 *
+			 * Header - byte
+			 *		Always 0x44 (the character "D").
+			 * 
+			 * Players
+			 *		Represents a list of players.
+			 *		
+			 *		Player
+			 *			+-----+----+-----+--------+
+			 *			|Index|Name|Score|Duration|
+			 *			+-----+----+-----+--------+
+			 *			
+			 *			Index - byte
+			 *				Supposed to be the index of player starting from 0. I don't actually
+			 *				think this is used.
+			 *				
+			 *			Name - string
+			 *				Name of the player.
+			 *				
+			 *			Score - int
+			 *				Player's score (usually "frags" or "kills").
+			 *				
+			 *			Duration - float
+			 *				Time (in seconds) player has been connected to the server.			 *			
+			 */
+
 			const string expectedHeader = "D";
 
-			ResponseFormat = (ResponseFormat) bytes.ReadInt();
+			ResponseFormat = (PacketFormat) bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);
 
-			if (ResponseFormat != ResponseFormat.Simple)
+			if (ResponseFormat != PacketFormat.Simple)
 				throw new NotImplementedException("Not ready to handle multi-packet responses yet."); // TODO
 			
 			Header = bytes.ReadString(1);

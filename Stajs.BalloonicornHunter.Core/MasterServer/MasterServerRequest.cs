@@ -37,6 +37,30 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 
 		public byte[] ToBytes()
 		{
+			/* https://developer.valvesoftware.com/wiki/Master_Server_Query_Protocol
+			 * https://developer.valvesoftware.com/wiki/Talk:Master_Server_Query_Protocol
+			 * 
+			 *		+------------+------+------------+------+
+			 *		|Request Type|Region|Start server|Filter|
+			 *		+------------+------+------------+------+
+			 *
+			 * Request Type - byte
+			 *		Always 0x31 (the character "1").
+			 * 
+			 * Region - byte
+			 *		The region of the world that you wish to find servers in.
+			 *		
+			 * Start server - string
+			 *		Multiple requests may have to be sent to get a full list of servers back over potentially
+			 *		multiple responses. The first request should be "0.0.0.0:0" and subsequent requests will be
+			 *		the last server returned in a response. Ports should be left open over multiple requests
+			 *		or else the list will be started from the beginning again.
+			 *		
+			 * Filter - string
+			 *		Allows you to restrict the results to servers running a certain game, map, etc. Insert "\" in
+			 *		between filter parameters.
+			 */
+
 			const int typeLength = 1;
 			const int regionLength = 1;
 			const int nullTerminatorLength = 1;

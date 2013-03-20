@@ -6,14 +6,29 @@ using System.Threading.Tasks;
 
 namespace Stajs.BalloonicornHunter.Core.Server
 {
-	public class InfoRequest : IServerRequest
+	public class InfoRequest : BaseServerRequest, IServerRequest
 	{
 		public byte[] ToBytes()
 		{
-			var request = new List<byte>();
-			request.AddRange(new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x54 });
+			/* https://developer.valvesoftware.com/wiki/Server_Queries
+			 * https://developer.valvesoftware.com/wiki/Talk:Server_queries
+			 * 
+			 *		+------+-------+
+			 *		|Header|Payload|
+			 *		+------+-------+
+			 *
+			 * Header - 1 byte
+			 *		Always 0x54 (the character "T").
+			 * 
+			 * Payload - string
+			 *		Always "Source Engine Query"
+			 */
+
+			var request = GetRequest();
+			request.Add(0x54);
 			request.AddRange(Encoding.UTF8.GetBytes("Source Engine Query"));
 			request.Add(0x00);
+
 
 			return request.ToArray();
 		}

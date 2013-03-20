@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Stajs.BalloonicornHunter.Core.Server
 {
-	public class PlayerRequest : IServerRequest
+	public class PlayerRequest : BaseServerRequest, IServerRequest
 	{
 		private readonly int _token;
 
@@ -17,8 +17,22 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		public byte[] ToBytes()
 		{
-			var request = new List<byte>();
-			request.AddRange(new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x55 });
+			/* https://developer.valvesoftware.com/wiki/Server_Queries
+			 * https://developer.valvesoftware.com/wiki/Talk:Server_queries
+			 * 
+			 *		+------+-----+
+			 *		|Header|Token|
+			 *		+------+-----+
+			 *
+			 * Header - 1 byte
+			 *		Always 0x55 (the character "U").
+			 * 
+			 * Token - int
+			 *		The challenge number to use.
+			 */
+
+			var request = GetRequest();
+			request.Add(0x55);
 			request.AddRange(BitConverter.GetBytes(_token));
 
 			return request.ToArray();

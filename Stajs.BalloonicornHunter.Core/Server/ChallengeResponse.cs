@@ -13,7 +13,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 	{
 		public RawResponse RawResponse { get; private set; }
 
-		public ResponseFormat ResponseFormat { get; private set; }
+		public PacketFormat ResponseFormat { get; private set; }
 		public string Header { get; private set; }
 		public int Token { get; private set; }
 
@@ -25,12 +25,26 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		private void Parse(byte[] bytes)
 		{
+			/* https://developer.valvesoftware.com/wiki/Server_Queries
+			 * https://developer.valvesoftware.com/wiki/Talk:Server_queries
+			 * 
+			 *		+------+-----+
+			 *		|Header|Token|
+			 *		+------+-----+
+			 *
+			 * Header - 1 byte
+			 *		Always 0x41 (the character "A").
+			 * 
+			 * Token - int
+			 *		The challenge number to use.
+			 */
+
 			const string expectedHeader = "A";
 
-			ResponseFormat = (ResponseFormat) bytes.ReadInt();
+			ResponseFormat = (PacketFormat) bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);
 
-			if (ResponseFormat != ResponseFormat.Simple)
+			if (ResponseFormat != PacketFormat.Simple)
 				throw new NotImplementedException("Not ready to handle multi-packet responses yet."); // TODO
 			
 			Header = bytes.ReadString(1);

@@ -12,7 +12,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 	{
 		public RawResponse RawResponse { get; private set; }
 
-		public ResponseFormat ResponseFormat { get; private set; }
+		public PacketFormat PacketFormat { get; private set; }
 		public string Header { get; private set; }
 		public int Protocol { get; private set; }
 		public string Name { get; private set; }
@@ -38,12 +38,82 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		private void Parse(byte[] bytes)
 		{
+			/* https://developer.valvesoftware.com/wiki/Server_Queries
+			 * https://developer.valvesoftware.com/wiki/Talk:Server_queries
+			 * 
+			 *		+------+--------+----+---+------+----+--+-------+-----------+----+-----------+-----------+----------+--------+-------+---+--+
+			 *		|Header|Protocol|Name|Map|Folder|Game|ID|Players|Max Players|Bots|Server Type|Environment|Visibility|The Ship|Version|EDF|ED|
+			 *		+------+--------+----+---+------+----+--+-------+-----------+----+-----------+-----------+----------+--------+-------+---+--+
+			 *
+			 * Header - 1 byte
+			 *		Always 0x49 (the character "I").
+			 * 
+			 * Protocol - 1 byte
+			 *		Protocol version used by the server.
+			 *		
+			 * Name - string
+			 *		Name of the server.
+			 *		
+			 * Map - string
+			 *		Map the server has currently loaded.
+			 *		
+			 * Folder - string
+			 *		Name of the folder containing the game files.
+			 *		
+			 * Game - string
+			 *		Full name of the game.
+			 *		
+			 * ID - Int16, 2 bytes
+			 *		Steam Application ID of game.
+			 *		https://developer.valvesoftware.com/wiki/Steam_Application_ID
+			 *		
+			 * Players - byte
+			 *		Number of players on the server.
+			 *		
+			 * Max Players - byte
+			 *		Maximum number of players the server reports it can hold.
+			 *		
+			 * Bots - byte
+			 *		Number of bots on the server.
+			 *		
+			 * Server Type - byte
+			 *		Indicates the type of server:
+			 *			'd' for a dedicated server
+			 *			'l' for a non-dedicated server
+			 *			'p' for a SourceTV server
+			 *			
+			 * Environment - byte
+			 *		Indicates the operating system of the server:
+			 *			'l' for Linux
+			 *			'w' for Windows
+			 *			
+			 * Visibility - byte
+			 *		Indicates whether the server requires a password:
+			 *			0 for public
+			 *			1 for private
+			 *			
+			 * VAC - byte
+			 *		Specifies whether the server uses VAC:
+			 *			0 for unsecured
+			 *			1 for secured
+			 *			
+			 * The Ship - IGNORED FOR NOW
+			 * 
+			 * Version - string
+			 *		Version of the game installed on the server.
+			 *		
+			 * Extra Data Flag (EDF) - byte
+			 *		If present, this specifies which additional data fields will be included.
+			 *		
+			 * Extra Data (ED) - IGNORED FOR NOW			 * 
+			 */
+
 			const string expectedHeader = "I";
 
-			ResponseFormat = (ResponseFormat) bytes.ReadInt();
+			PacketFormat = (PacketFormat) bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);
 
-			if (ResponseFormat != ResponseFormat.Simple)
+			if (PacketFormat != PacketFormat.Simple)
 				throw new NotImplementedException("Not ready to handle multi-packet responses yet."); // TODO
 			
 			Header = bytes.ReadString(1);
