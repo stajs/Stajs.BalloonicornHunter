@@ -14,7 +14,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 	{
 		public RawResponse RawResponse { get; private set; }
 
-		public PacketFormat ResponseFormat { get; private set; }
+		public PacketFormat PacketFormat { get; private set; }
 		public string Header { get; private set; }
 		public int PlayerCount { get; private set; }
 		public List<Player> Players { get; private set; }
@@ -63,10 +63,10 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 			const string expectedHeader = "D";
 
-			ResponseFormat = (PacketFormat) bytes.ReadInt();
+			PacketFormat = (PacketFormat) bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);
 
-			if (ResponseFormat != PacketFormat.Simple)
+			if (PacketFormat != PacketFormat.Simple)
 				throw new NotImplementedException("Not ready to handle multi-packet responses yet."); // TODO
 			
 			Header = bytes.ReadString(1);
