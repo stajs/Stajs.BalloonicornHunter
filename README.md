@@ -83,13 +83,22 @@ if (!servers.Any())
 
 var info = new List<string>();
 
-foreach (var server in servers)
+Debug.Print("Found {0} server(s)", servers.Count);
+
+foreach (var server in servers.Select((Value, Index) => new { Value, Index }))
 {
-	var serverQuery = new ServerQuery(server);
+	var serverQuery = new ServerQuery(server.Value);
 	var infoResponse = serverQuery.GetInfo();
 	var playerResponse = serverQuery.GetPlayers();
+	var serverInfo = string.Format("{0} | {1} | {2}/{3} players",
+		infoResponse.Name,
+		infoResponse.Map,
+		playerResponse.PlayerCount,
+		infoResponse.MaxPlayers);
 
-	info.Add(string.Format("Server: {0} | Map: {1} | # Players: {2}", infoResponse.Name, infoResponse.Map, playerResponse.PlayerCount));
+	Debug.Print("[{0}] {1}", server.Index, serverInfo);
+
+	info.Add(serverInfo);
 }
 
 Console.WriteLine("I'm ah gonna get you...");
