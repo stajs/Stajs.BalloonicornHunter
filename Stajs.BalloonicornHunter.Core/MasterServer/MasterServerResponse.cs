@@ -12,9 +12,12 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 {
 	public class MasterServerResponse
 	{
+		private string _defaultRoute = "0.0.0.0:0";
+
 		public RawResponse RawResponse { get; private set; }
 
 		public List<IPEndPoint> Servers { get; private set; }
+		public bool IsComplete { get; private set; }
 
 		public MasterServerResponse(byte[] bytes)
 		{
@@ -68,6 +71,12 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer
 				var server = bytes.Take(ipEndPointLength).ToIPEndPoint();
 				servers.Add(server);
 				bytes = bytes.RemoveFromStart(ipEndPointLength);
+			}
+
+			if (servers.Last().ToString() == _defaultRoute)
+			{
+				servers.RemoveAt(servers.Count - 1);
+				IsComplete = true;
 			}
 
 			return servers;
