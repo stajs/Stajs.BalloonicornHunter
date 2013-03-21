@@ -59,11 +59,20 @@ var filter = new Filter
 {
 	Region = Region.Australia,
 	Game = Game.TeamFortress2,
+	HasPlayers = true,
+	IsNotFull = true,
+	IsVacProtected = true,
 	Map = Map.Doomsday
 };
 
 var masterServerQuery = new MasterServerQuery();
 var servers = masterServerQuery.GetServers(filter);
+
+filter.Map = Map.GoldRush;
+servers.AddRange(masterServerQuery.GetServers(filter));
+
+filter.Map = Map.Turbine;
+servers.AddRange(masterServerQuery.GetServers(filter));
 
 if (!servers.Any())
 {
@@ -72,13 +81,19 @@ if (!servers.Any())
 	return;
 }
 
-var serverQuery = new ServerQuery(servers.First());
-var info = serverQuery.GetInfo();
-var players = serverQuery.GetPlayers();
+var info = new List<string>();
+
+foreach (var server in servers)
+{
+	var serverQuery = new ServerQuery(server);
+	var infoResponse = serverQuery.GetInfo();
+	var playerResponse = serverQuery.GetPlayers();
+
+	info.Add(string.Format("Server: {0} | Map: {1} | # Players: {2}", infoResponse.Name, infoResponse.Map, playerResponse.PlayerCount));
+}
 
 Console.WriteLine("I'm ah gonna get you...");
-Console.WriteLine(info.Name);
-Console.WriteLine(info.Map);
+Console.WriteLine(info.First());
 Console.ReadKey();
 ```
 
