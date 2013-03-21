@@ -54,7 +54,7 @@ namespace Stajs.BalloonicornHunter.CommandLine
 					playerResponse.PlayerCount,
 					infoResponse.MaxPlayers);
 
-				Debug.Print("[{0}] {1}", server.Index, serverInfo);
+				Debug.Print("[{0}] {1}\n\t{2}", server.Index, serverInfo, string.Join("\n\t", playerResponse.Players));
 
 				info.Add(serverInfo);
 			}
