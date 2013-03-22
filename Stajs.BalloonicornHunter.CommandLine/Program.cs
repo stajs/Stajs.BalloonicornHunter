@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using Stajs.BalloonicornHunter.Core.Extensions;
 using Stajs.BalloonicornHunter.Core.MasterServer;
 using Stajs.BalloonicornHunter.Core.MasterServer.Filters;
 using Stajs.BalloonicornHunter.Core.Server;
@@ -15,22 +16,14 @@ namespace Stajs.BalloonicornHunter.CommandLine
 		{
 			var filter = new Filter
 			{
-				Region = Region.Australia,
+				Region = Region.UsEastCoast,
 				Game = Game.TeamFortress2,
 				HasPlayers = true,
-				IsNotFull = true,
-				IsVacProtected = true,
-				Map = Map.Doomsday
+				Map = Map.Turbine
 			};
 
 			var masterServerQuery = new MasterServerQuery();
 			var servers = masterServerQuery.GetServers(filter);
-
-			filter.Map = Map.GoldRush;
-			servers.AddRange(masterServerQuery.GetServers(filter));
-
-			filter.Map = Map.Turbine;
-			servers.AddRange(masterServerQuery.GetServers(filter));
 
 			if (!servers.Any())
 			{
@@ -45,14 +38,30 @@ namespace Stajs.BalloonicornHunter.CommandLine
 
 			foreach (var server in servers.Select((Value, Index) => new { Value, Index }))
 			{
+				Debug.Print("Pinging {0}", server.Value);
+				var ping = server.Value.GetPing();
+				
+				if (!ping.HasValue)
+				{
+					Debug.Print("Could not contact server.");
+					continue;
+				}
+
+				if (ping > 100)
+				{
+					Debug.Print("Ping too high!");
+					continue;
+				}
+
 				var serverQuery = new ServerQuery(server.Value);
 				var infoResponse = serverQuery.GetInfo();
 				var playerResponse = serverQuery.GetPlayers();
-				var serverInfo = string.Format("{0} | {1} | {2}/{3} players",
+				var serverInfo = string.Format("{0} | {1} | {2}/{3} players | {4}",
 					infoResponse.Name,
 					infoResponse.Map,
 					playerResponse.PlayerCount,
-					infoResponse.MaxPlayers);
+					infoResponse.MaxPlayers,
+					ping);
 
 				Debug.Print("[{0}] {1}\n\t{2}", server.Index, serverInfo, string.Join("\n\t", playerResponse.Players));
 

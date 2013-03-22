@@ -16,6 +16,9 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 		Doomsday,
 
 		[Description(@"\map\ctf_turbine")]
-		Turbine
+		Turbine,
+
+		[Description(@"\map\arena_granary")]
+		ArenaGranary
 	}
 }

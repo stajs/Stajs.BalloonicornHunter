@@ -44,6 +44,7 @@
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\IPEndPointExtensions.cs" />
     <Compile Include="Extensions\UdpClientExtensions.cs" />
     <Compile Include="IServerRequest.cs" />
     <Compile Include="MasterServer\Filters\Filter.cs" />
