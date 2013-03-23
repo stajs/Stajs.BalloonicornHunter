@@ -103,8 +103,9 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 				Players.Add(player);
 			}
-			
-			Debug.Assert(!bytes.Any());
+
+			if (bytes.Any())
+				throw new ResponseLengthException();
 		}
 
 		public override string ToString()

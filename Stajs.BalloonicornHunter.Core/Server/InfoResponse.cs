@@ -28,7 +28,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 		public bool RequiresPassword { get; private set; }
 		public bool IsVacProtected { get; private set; }
 		public string Version { get; private set; }
-		public int ExtraData { get; private set; }
+		public ExtraData ExtraData { get; private set; }
 
 		public InfoResponse(byte[] bytes)
 		{
@@ -184,58 +184,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			Version = bytes.ReadStringUntilNullTerminator();
 			bytes = bytes.RemoveFromStart(Version.Length + 1);
 
-			ExtraData = bytes[0];
-			bytes = bytes.RemoveFromStart(1);
-
-			var hasPort = (ExtraData & 0x80) > 0;
-			var hasSteamId = (ExtraData & 0x10) > 0;
-			var hasSourceTv = (ExtraData & 0x40) > 0;
-			var hasKeywords = (ExtraData & 0x20) > 0;
-			var hasGameId = (ExtraData & 0x01) > 0;
-
-			short port;
-
-			if (hasPort)
-			{
-				port = bytes.ReadInt16();
-				bytes = bytes.RemoveFromStart(2);
-			}
-
-			long steamId;
-
-			if (hasSteamId)
-			{
-				steamId = bytes.ReadInt64();
-				bytes = bytes.RemoveFromStart(8);
-			}
-
-			short sourceTvPort;
-			string sourceTvName;
-
-			if (hasSourceTv)
-			{
-				sourceTvPort = bytes.ReadInt16();
-				bytes = bytes.RemoveFromStart(2);
-
-				sourceTvName = bytes.ReadStringUntilNullTerminator();
-				bytes = bytes.RemoveFromStart(sourceTvName.Length + 1);
-			}
-
-			string keywords;
-
-			if (hasKeywords)
-			{
-				keywords = bytes.ReadStringUntilNullTerminator();
-				bytes = bytes.RemoveFromStart(keywords.Length + 1);
-			}
-
-			long gameId;
-
-			if (hasGameId)
-			{
-				gameId = bytes.ReadInt64();
-				bytes = bytes.RemoveFromStart(8);
-			}
+			ExtraData = new ExtraData(bytes);
 		}
 
 		public override string ToString()

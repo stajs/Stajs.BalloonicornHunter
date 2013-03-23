@@ -17,6 +17,11 @@ namespace Stajs.BalloonicornHunter.Core.Extensions
 			return BitConverter.ToInt16(bytes, 0);
 		}
 
+		internal static ulong ReadUInt64(this byte[] bytes)
+		{
+			return BitConverter.ToUInt64(bytes, 0);
+		}
+
 		internal static long ReadInt64(this byte[] bytes)
 		{
 			return BitConverter.ToInt64(bytes, 0);

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ResponseLengthException.cs" />
     <Compile Include="Exceptions\HolyShitException.cs" />
     <Compile Include="Exceptions\ResponseHeaderException.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Server\BaseServerRequest.cs" />
     <Compile Include="Server\ChallengeRequest.cs" />
     <Compile Include="Server\ChallengeResponse.cs" />
+    <Compile Include="Server\ExtraData.cs" />
     <Compile Include="Server\Player.cs" />
     <Compile Include="Server\PlayerResponse.cs" />
     <Compile Include="Server\PlayerRequest.cs" />
