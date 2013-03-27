@@ -16,10 +16,10 @@ namespace Stajs.BalloonicornHunter.CommandLine
 		{
 			var filter = new Filter
 			{
-				Region = Region.UsEastCoast,
+				Region = Region.Australia,
 				Game = Game.TeamFortress2,
 				HasPlayers = true,
-				Map = Map.Turbine
+				IsNotFull = true
 			};
 
 			var masterServerQuery = new MasterServerQuery();
@@ -55,6 +55,10 @@ namespace Stajs.BalloonicornHunter.CommandLine
 
 				var serverQuery = new ServerQuery(server.Value);
 				var infoResponse = serverQuery.GetInfo();
+
+				var signed = infoResponse.ExtraData.SignedServerSteamId;
+				var unsigned = infoResponse.ExtraData.UnsignedServerSteamId;
+
 				var playerResponse = serverQuery.GetPlayers();
 				var serverInfo = string.Format("{0} | {1} | {2}/{3} players | {4}",
 					infoResponse.Name,

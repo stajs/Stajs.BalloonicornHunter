@@ -28,7 +28,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 		public bool RequiresPassword { get; private set; }
 		public bool IsVacProtected { get; private set; }
 		public string Version { get; private set; }
-		public int ExtraData { get; private set; }
+		public ExtraData ExtraData { get; private set; }
 
 		public InfoResponse(byte[] bytes)
 		{
@@ -105,7 +105,24 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			 * Extra Data Flag (EDF) - byte
 			 *		If present, this specifies which additional data fields will be included.
 			 *		
-			 * Extra Data (ED) - IGNORED FOR NOW			 * 
+			 * Extra Data (ED)
+			 *		If (ExtraData & 0x80) > 0
+			 *			Port - short
+			 *				The server's game port number.
+			 *		If (ExtraData & 0x10) > 0
+			 *			SteamID - long
+			 *				Server's SteamID.
+			 *		If (ExtraData & 0x40) > 0
+			 *			Port - short
+			 *				Spectator port number for SourceTV.
+			 *			Name - string
+			 *			Name of the spectator server for SourceTV.
+			 *		If (ExtraData & 0x20) > 0
+			 *			Keywords - string
+			 *			Tags that describe the game according to the server.
+			 *		If (ExtraData & 0x01) > 0
+			 *			GameID - long
+			 *			The server's 64-bit GameID.
 			 */
 
 			const string expectedHeader = "I";
@@ -140,6 +157,9 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			Id = bytes.ReadInt16();
 			bytes = bytes.RemoveFromStart(2);
 
+			if (Id >= 2400 && Id <= 2412)
+				throw new HolyShitException("You've found a server running 'The Ship'! This is ignored.");
+
 			Players = bytes[0];
 			bytes = bytes.RemoveFromStart(1);
 
@@ -161,16 +181,10 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			IsVacProtected = bytes.ReadBoolean();
 			bytes = bytes.RemoveFromStart(1);
 
-			// Ignore "The Ship"
-
 			Version = bytes.ReadStringUntilNullTerminator();
 			bytes = bytes.RemoveFromStart(Version.Length + 1);
 
-			ExtraData = bytes[0];
-			bytes = bytes.RemoveFromStart(1);
-
-			// Ignore actual extra data
-			// TODO
+			ExtraData = new ExtraData(bytes);
 		}
 
 		public override string ToString()
