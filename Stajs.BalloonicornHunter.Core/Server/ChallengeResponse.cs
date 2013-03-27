@@ -56,7 +56,8 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			Token = bytes.ReadInt();
 			bytes = bytes.RemoveFromStart(4);
 
-			Debug.Assert(!bytes.Any());
+			if (bytes.Any())
+				throw new ResponseLengthException();
 		}
 
 		public override string ToString()
