@@ -16,6 +16,11 @@ namespace Stajs.BalloonicornHunter.Core
 
 		public Int64? Get(CQ dom)
 		{
+			var urls = FindUrls(dom);
+
+			if (urls.Count != 1)
+				return null;
+
 			return null;
 		}
 

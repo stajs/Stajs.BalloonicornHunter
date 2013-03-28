@@ -10,6 +10,14 @@ namespace Stajs.BalloonicornHunter.Core.Tests
 	[TestClass]
 	public class SteamIdFinderTests
 	{
+		private SteamIdFinder _finder;
+
+		[TestInitialize]
+		public void TestInitialize()
+		{
+			_finder = new SteamIdFinder();
+		}
+
 		private CQ GetMultiUserDom()
 		{
 			var bytes = Convert.FromBase64String(ExampleHtml.MultipleResults);
@@ -20,11 +28,17 @@ namespace Stajs.BalloonicornHunter.Core.Tests
 		[TestMethod]
 		public void FindLinks_MultipleUsers_Returns50()
 		{
-			var steamIdFinder = new SteamIdFinder();
-			var links = steamIdFinder.FindUrls(GetMultiUserDom());
+			var links = _finder.FindUrls(GetMultiUserDom());
 
 			links.Should().HaveCount(50);
 			Assert.IsTrue(links.All(a => a.StartsWith("http://steamcommunity.com/profiles/") ||  a.StartsWith("http://steamcommunity.com/id/")));
+		}
+
+		[TestMethod]
+		public void Get_MultipleUsers_ReturnsNull()
+		{
+			var id = _finder.Get(GetMultiUserDom());
+			id.Should().NotHaveValue();
 		}
 	}
 }
