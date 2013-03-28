@@ -60,49 +60,30 @@ var filter = new Filter
 	Region = Region.Australia,
 	Game = Game.TeamFortress2,
 	HasPlayers = true,
-	IsNotFull = true,
-	IsVacProtected = true,
-	Map = Map.Doomsday
+	IsNotFull = true
 };
 
 var masterServerQuery = new MasterServerQuery();
 var servers = masterServerQuery.GetServers(filter);
+var server = servers.First();
+var ping = server.GetPing();
+var serverQuery = new ServerQuery(server);
+var info = serverQuery.GetInfo();
+var players = serverQuery.GetPlayers();
 
-filter.Map = Map.GoldRush;
-servers.AddRange(masterServerQuery.GetServers(filter));
+Console.WriteLine("{0} | {1} | {2}/{3} players | {4} ms",
+		info.Name,
+		info.Map,
+		players.PlayerCount,
+		info.MaxPlayers,
+		ping);
 
-filter.Map = Map.Turbine;
-servers.AddRange(masterServerQuery.GetServers(filter));
+var player = players.Players.First();
+var finder = new SteamIdFinder();
+var id = finder.Get(player.Name);
 
-if (!servers.Any())
-{
-	Console.WriteLine("Oh dear.");
-	Console.ReadKey();
-	return;
-}
+Console.WriteLine("{0} | {1}", player.Name, id);
 
-var info = new List<string>();
-
-Debug.Print("Found {0} server(s)", servers.Count);
-
-foreach (var server in servers.Select((Value, Index) => new { Value, Index }))
-{
-	var serverQuery = new ServerQuery(server.Value);
-	var infoResponse = serverQuery.GetInfo();
-	var playerResponse = serverQuery.GetPlayers();
-	var serverInfo = string.Format("{0} | {1} | {2}/{3} players",
-		infoResponse.Name,
-		infoResponse.Map,
-		playerResponse.PlayerCount,
-		infoResponse.MaxPlayers);
-
-	Debug.Print("[{0}] {1}\n\t{2}", server.Index, serverInfo, string.Join("\n\t", playerResponse.Players));
-
-	info.Add(serverInfo);
-}
-
-Console.WriteLine("I'm ah gonna get you...");
-Console.WriteLine(info.First());
 Console.ReadKey();
 ```
 
