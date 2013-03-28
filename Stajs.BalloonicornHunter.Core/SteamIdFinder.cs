@@ -4,24 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CsQuery;
+using Stajs.BalloonicornHunter.Core.Exceptions;
 
 namespace Stajs.BalloonicornHunter.Core
 {
 	public class SteamIdFinder
 	{
-		public Int64? Get(string name)
+		private const string _urlMask = "http://steamcommunity.com/profiles/";
+
+		public long? Get(string name)
 		{
 			return Get(CQ.CreateFragment(""));
 		}
 
-		public Int64? Get(CQ dom)
+		public long? Get(CQ dom)
 		{
 			var urls = FindUrls(dom);
 
 			if (urls.Count != 1)
 				return null;
 
-			return null;
+			var url = urls.Single();
+
+			if (!url.StartsWith(_urlMask))
+				return null;
+
+			long id;
+			if (!long.TryParse(url.Replace(_urlMask, ""), out id))
+				throw new HolyShitException("This URL be fricked up son! " + url);
+
+			return id;
 		}
 
 		internal List<string> FindUrls(CQ dom)
