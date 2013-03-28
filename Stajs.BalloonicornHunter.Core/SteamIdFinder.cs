@@ -27,7 +27,7 @@ namespace Stajs.BalloonicornHunter.Core
 			var url = urls.Single();
 
 			if (!url.StartsWith(_urlMask))
-				return null;
+				return null; // TODO: resolve vanity URLs
 
 			long id;
 			if (!long.TryParse(url.Replace(_urlMask, ""), out id))
