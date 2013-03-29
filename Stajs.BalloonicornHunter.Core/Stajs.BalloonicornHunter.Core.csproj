@@ -35,8 +35,15 @@
     <Reference Include="CsQuery">
       <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
     </Reference>
+    <Reference Include="DynaCache">
+      <HintPath>..\packages\DynaCache.1.01\lib\net40\DynaCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +61,7 @@
     <Compile Include="Extensions\IPEndPointExtensions.cs" />
     <Compile Include="Extensions\UdpClientExtensions.cs" />
     <Compile Include="IServerRequest.cs" />
+    <Compile Include="ISteamIdFinder.cs" />
     <Compile Include="MasterServer\Filters\Filter.cs" />
     <Compile Include="MasterServer\Filters\Game.cs" />
     <Compile Include="MasterServer\Filters\Map.cs" />

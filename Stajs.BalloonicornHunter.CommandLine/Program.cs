@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using Ninject;
 using Stajs.BalloonicornHunter.Core;
 using Stajs.BalloonicornHunter.Core.Extensions;
 using Stajs.BalloonicornHunter.Core.MasterServer;
@@ -16,6 +17,15 @@ namespace Stajs.BalloonicornHunter.CommandLine
 	{
 		static void Main(string[] args)
 		{
+			
+
+			var kernel = new StandardKernel(new StandardModule());
+			var finder = kernel.Get<ISteamIdFinder>();
+			var x = finder.Get("");
+
+			return;
+
+
 			var filter = new Filter
 			{
 				Region = Region.Australia,
@@ -41,20 +51,18 @@ namespace Stajs.BalloonicornHunter.CommandLine
 
 			var steamIds = new List<long>();
 
-			foreach (var player in players.Players)
-			{
-				// TODO: cache
-				var finder = new SteamIdFinder();
-				var id = finder.Get(player.Name);
+			//foreach (var player in players.Players)
+			//{
+			//	var id = finder.Get(player.Name);
 
-				Console.WriteLine("{0} | {1}", player.Name, id);
+			//	Console.WriteLine("{0} | {1}", player.Name, id);
 
-				// Be a good citizen, don't spam too hard
-				Thread.Sleep(TimeSpan.FromSeconds(3));
+			//	// Be a good citizen, don't spam too hard
+			//	Thread.Sleep(TimeSpan.FromSeconds(3));
 
-				if (id.HasValue)
-					steamIds.Add(id.Value);
-			}
+			//	if (id.HasValue)
+			//		steamIds.Add(id.Value);
+			//}
 
 			Console.ReadKey();
 		}

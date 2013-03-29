@@ -6,15 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using CsQuery;
+using DynaCache;
 using Stajs.BalloonicornHunter.Core.Exceptions;
 
 namespace Stajs.BalloonicornHunter.Core
 {
-	public class SteamIdFinder
+	public class SteamIdFinder : ISteamIdFinder
 	{
 		private const string _urlMask = "http://steamcommunity.com/profiles/";
 
-		public long? Get(string name)
+		[CacheableMethod(30)]
+		public virtual long? Get(string name)
 		{
 			Debug.Print(name);
 			var url = string.Format("http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22", HttpUtility.UrlEncode(name));
