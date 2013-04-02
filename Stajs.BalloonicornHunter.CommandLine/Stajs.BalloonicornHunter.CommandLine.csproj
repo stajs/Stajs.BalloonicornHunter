@@ -34,8 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DynaCache">
-      <HintPath>..\packages\DynaCache.1.01\lib\net40\DynaCache.dll</HintPath>
+    <Reference Include="DynaCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DynaCache.1.04\lib\net40\DynaCache.dll</HintPath>
+    </Reference>
+    <Reference Include="DynaCache.MemoryCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DynaCache.1.04\lib\net40\DynaCache.MemoryCache.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>

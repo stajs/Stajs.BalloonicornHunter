@@ -17,15 +17,6 @@ namespace Stajs.BalloonicornHunter.CommandLine
 	{
 		static void Main(string[] args)
 		{
-			
-
-			var kernel = new StandardKernel(new StandardModule());
-			var finder = kernel.Get<ISteamIdFinder>();
-			var x = finder.Get("");
-
-			return;
-
-
 			var filter = new Filter
 			{
 				Region = Region.Australia,
@@ -35,8 +26,11 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			};
 
 			var masterServerQuery = new MasterServerQuery();
-			var servers = masterServerQuery.GetServers(filter);
-			var server = servers.First();
+
+			var server = masterServerQuery
+				.GetServers(filter)
+				.First();
+
 			var ping = server.GetPing();
 			var serverQuery = new ServerQuery(server);
 			var info = serverQuery.GetInfo();
@@ -49,7 +43,14 @@ namespace Stajs.BalloonicornHunter.CommandLine
 					info.MaxPlayers,
 					ping);
 
-			var steamIds = new List<long>();
+			// TODO: caching
+			//var kernel = new StandardKernel(new StandardModule());
+
+			//var steamIds = new List<long>();
+
+			//var finder = kernel.Get<ISteamIdFinder>();
+
+			//var player = players.Players.First();
 
 			//foreach (var player in players.Players)
 			//{
