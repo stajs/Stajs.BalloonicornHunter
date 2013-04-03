@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using CsQuery;
-using DynaCache;
 using Stajs.BalloonicornHunter.Core.Exceptions;
 
 namespace Stajs.BalloonicornHunter.Core
@@ -15,7 +14,6 @@ namespace Stajs.BalloonicornHunter.Core
 	{
 		private const string _urlMask = "http://steamcommunity.com/profiles/";
 
-		[CacheableMethod(30)]
 		public virtual long? Get(string name)
 		{
 			Debug.Print(name);
