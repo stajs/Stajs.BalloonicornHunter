@@ -14,7 +14,8 @@ namespace Stajs.BalloonicornHunter.Core.Domain
 		{
 			const string sql = @"CREATE TABLE IF NOT EXISTS [Player] (
 				[Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-				[Name] TEXT NOT NULL
+				[Name] TEXT NOT NULL,
+				[SteamId] INTEGER
 			)";
 
 			context.Database.ExecuteSqlCommand(sql);

@@ -17,11 +17,6 @@ namespace Stajs.BalloonicornHunter.CommandLine
 	{
 		static void Main(string[] args)
 		{
-			var finder = new SteamIdFinder();
-			var x = finder.Get("");
-
-			return;
-
 			var filter = new Filter
 			{
 				Region = Region.Australia,
@@ -48,28 +43,26 @@ namespace Stajs.BalloonicornHunter.CommandLine
 					info.MaxPlayers,
 					ping);
 
-			// TODO: caching
 			//var kernel = new StandardKernel(new StandardModule());
 
-			//var steamIds = new List<long>();
+			var steamIds = new List<long>();
 
 			//var finder = kernel.Get<ISteamIdFinder>();
+			var finder = new SteamIdFinder();
 
-			//var player = players.Players.First();
+			foreach (var player in players.Players.Select((v, i) => new { Index = i, Value = v }))
+			{
+				var name = player.Value.Name;
 
-			//foreach (var player in players.Players)
-			//{
-			//	var id = finder.Get(player.Name);
+				var id = finder.Get(name);
 
-			//	Console.WriteLine("{0} | {1}", player.Name, id);
+				Console.WriteLine("\t{0}\t| {1}\t| {2}", player.Index, name, id);
 
-			//	// Be a good citizen, don't spam too hard
-			//	Thread.Sleep(TimeSpan.FromSeconds(3));
+				if (id.HasValue)
+					steamIds.Add(id.Value);
+			}
 
-			//	if (id.HasValue)
-			//		steamIds.Add(id.Value);
-			//}
-
+			Console.WriteLine("\nSmash a key");
 			Console.ReadKey();
 		}
 	}

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using CsQuery;
@@ -16,21 +17,37 @@ namespace Stajs.BalloonicornHunter.Core
 	{
 		private const string _urlMask = "http://steamcommunity.com/profiles/";
 
-		public virtual long? Get(string name)
+		public long? Get(string name)
 		{
-			var x = new CacheContext();
-			var yep = x.Players.ToList();
-
-			var c = new CacheContext();
-			c.Players.Add(new Player {Name = "he7y", Id = 1});
-			c.SaveChanges();
-			var all = c.Players.ToList();
-
-			return null;
+			if (string.IsNullOrWhiteSpace(name))
+				return null;
 
 			Debug.Print(name);
+			var cache = new CacheContext();
+			var player = cache.Players.SingleOrDefault(p => p.Name == name);
+
+			if (player != null)
+			{
+				Debug.Print("\tFound in cache");
+				return player.SteamId;
+			}
+
+			Debug.Print("\tSleeping");
+			Thread.Sleep(TimeSpan.FromSeconds(3));
+			Debug.Print("\tSearching");
 			var url = string.Format("http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22", HttpUtility.UrlEncode(name));
-			return Get(CQ.CreateFromUrl(url));
+			var steamId = Get(CQ.CreateFromUrl(url));
+
+			player = new Player
+			{
+				Name = name,
+				SteamId = steamId
+			};
+
+			cache.Players.Add(player);
+			cache.SaveChanges();
+
+			return steamId;
 		}
 
 		internal long? Get(CQ dom)
