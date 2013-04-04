@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using CsQuery;
+using Stajs.BalloonicornHunter.Core.Domain;
 using Stajs.BalloonicornHunter.Core.Exceptions;
 
 namespace Stajs.BalloonicornHunter.Core
@@ -16,6 +18,16 @@ namespace Stajs.BalloonicornHunter.Core
 
 		public virtual long? Get(string name)
 		{
+			var x = new CacheContext();
+			var yep = x.Players.ToList();
+
+			var c = new CacheContext();
+			c.Players.Add(new Player {Name = "he7y", Id = 1});
+			c.SaveChanges();
+			var all = c.Players.ToList();
+
+			return null;
+
 			Debug.Print(name);
 			var url = string.Format("http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22", HttpUtility.UrlEncode(name));
 			return Get(CQ.CreateFromUrl(url));

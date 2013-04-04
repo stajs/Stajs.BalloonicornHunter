@@ -17,6 +17,11 @@ namespace Stajs.BalloonicornHunter.CommandLine
 	{
 		static void Main(string[] args)
 		{
+			var finder = new SteamIdFinder();
+			var x = finder.Get("");
+
+			return;
+
 			var filter = new Filter
 			{
 				Region = Region.Australia,
