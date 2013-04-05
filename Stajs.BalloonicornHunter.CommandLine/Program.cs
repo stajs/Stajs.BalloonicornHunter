@@ -62,6 +62,7 @@ namespace Stajs.BalloonicornHunter.CommandLine
 					steamIds.Add(id.Value);
 			}
 
+			Debug.WriteLine("\nSmash a key");
 			Console.WriteLine("\nSmash a key");
 			Console.ReadKey();
 		}

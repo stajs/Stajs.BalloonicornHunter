@@ -11,5 +11,7 @@ namespace Stajs.BalloonicornHunter.Core.Domain
 		public long Id { get; set; }
 		public string Name { get; set; }
 		public long? SteamId { get; set; }
+		public long QueryCount { get; set; }
+		public DateTime QueriedAt { get; set; }
 	}
 }

@@ -15,33 +15,41 @@ namespace Stajs.BalloonicornHunter.Core
 {
 	public class SteamIdFinder : ISteamIdFinder
 	{
-		private const string UrlMask = "http://steamcommunity.com/profiles/";
-
 		public long? Get(string name)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				return null;
 
-			Debug.Print(name);
+			Debug.Print("Finding Steam ID for: {0}", name);
+
 			var cache = new CacheContext();
 			var player = cache.Players.SingleOrDefault(p => p.Name == name);
 
 			if (player != null)
 			{
-				Debug.Print("\tFound in cache");
+				Debug.Print("\tFound in cache: {0}", player.SteamId);
 				return player.SteamId;
 			}
 
+			// TODO: keep a static LastQueriedAt instead of a dumb Thread.Sleep()
 			Debug.Print("\tSleeping");
 			Thread.Sleep(TimeSpan.FromSeconds(3));
+
 			Debug.Print("\tSearching");
-			var url = string.Format("http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22", HttpUtility.UrlEncode(name));
-			var steamId = Get(CQ.CreateFromUrl(url));
+			var searchUrl = string.Format("http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22", HttpUtility.UrlEncode(name));
+			var dom = CQ.CreateFromUrl(searchUrl);
+			var profileUrls = FindProfileUrls(dom);
+
+			Debug.Print("\tProfile URL Count: {0}", profileUrls.Count);
+
+			var steamId = Get(profileUrls);
 
 			player = new Player
 			{
 				Name = name,
-				SteamId = steamId
+				SteamId = steamId,
+				QueryCount = profileUrls.Count,
+				QueriedAt = DateTime.Now
 			};
 
 			cache.Players.Add(player);
@@ -50,31 +58,30 @@ namespace Stajs.BalloonicornHunter.Core
 			return steamId;
 		}
 
-		internal long? Get(CQ dom)
+		internal long? Get(List<string> profileUrls)
 		{
-			var urls = FindUrls(dom);
-
-			Debug.Print("\tCount: {0}", urls.Count);
-
-			if (urls.Count != 1)
+			if (profileUrls.Count != 1)
 				return null;
 
-			var url = urls.Single();
+			var url = profileUrls.Single();
 
-			Debug.Print("\t{0}", url);
-			if (!url.StartsWith(UrlMask))
+			Debug.Print("\tProfile URL: {0}", url);
+			
+			const string urlMask = "http://steamcommunity.com/profiles/";
+
+			if (!url.StartsWith(urlMask))
 				return null; // TODO: resolve vanity URLs
 
 			long id;
-			if (!long.TryParse(url.Replace(UrlMask, ""), out id))
+			if (!long.TryParse(url.Replace(urlMask, ""), out id))
 				throw new HolyShitException("This URL be fricked up son! " + url);
 
-			Debug.Print("\t{0}", id);
+			Debug.Print("\tSteam ID: {0}", id);
 
 			return id;
 		}
 
-		internal List<string> FindUrls(CQ dom)
+		internal List<string> FindProfileUrls(CQ dom)
 		{
 			return dom["div.resultItem a.linkTitle"]
 				.Select(a => a["href"])
