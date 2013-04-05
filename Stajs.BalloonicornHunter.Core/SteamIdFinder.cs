@@ -15,13 +15,22 @@ namespace Stajs.BalloonicornHunter.Core
 {
 	public class SteamIdFinder : ISteamIdFinder
 	{
+		private DateTime _nextQueryAt;
+
+		public SteamIdFinder()
+		{
+			_nextQueryAt = DateTime.Now;
+		}
+
+		// TODO: refactor
 		public long? Get(string name)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				return null;
 
-			Debug.Print("Finding Steam ID for: {0}", name);
+			Debug.Print("\nFinding Steam ID for: {0}", name);
 
+			// TODO: interface and query class
 			var cache = new CacheContext();
 			var player = cache.Players.SingleOrDefault(p => p.Name == name);
 
@@ -31,9 +40,16 @@ namespace Stajs.BalloonicornHunter.Core
 				return player.SteamId;
 			}
 
-			// TODO: keep a static LastQueriedAt instead of a dumb Thread.Sleep()
-			Debug.Print("\tSleeping");
-			Thread.Sleep(TimeSpan.FromSeconds(3));
+			var now = DateTime.Now;
+
+			while (now < _nextQueryAt)
+			{
+				Thread.Sleep(TimeSpan.FromMilliseconds(500));
+				now = DateTime.Now;
+				Debug.Print("\tSearching in: {0}", (_nextQueryAt - now).TotalSeconds);
+			}
+
+			_nextQueryAt = now.AddSeconds(4);
 
 			Debug.Print("\tSearching");
 			var searchUrl = string.Format("http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22", HttpUtility.UrlEncode(name));

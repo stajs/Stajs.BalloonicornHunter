@@ -36,12 +36,15 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			var info = serverQuery.GetInfo();
 			var players = serverQuery.GetPlayers();
 
-			Console.WriteLine("{0} | {1} | {2}/{3} players | {4} ms",
+			var msg = string.Format("{0} | {1} | {2}/{3} players | {4} ms",
 					info.Name,
 					info.Map,
 					players.PlayerCount,
 					info.MaxPlayers,
 					ping);
+
+			Debug.Print(msg);
+			Console.WriteLine(msg);
 
 			//var kernel = new StandardKernel(new StandardModule());
 
