@@ -15,7 +15,7 @@ namespace Stajs.BalloonicornHunter.Core
 {
 	public class SteamIdFinder : ISteamIdFinder
 	{
-		private const string _urlMask = "http://steamcommunity.com/profiles/";
+		private const string UrlMask = "http://steamcommunity.com/profiles/";
 
 		public long? Get(string name)
 		{
@@ -62,11 +62,11 @@ namespace Stajs.BalloonicornHunter.Core
 			var url = urls.Single();
 
 			Debug.Print("\t{0}", url);
-			if (!url.StartsWith(_urlMask))
+			if (!url.StartsWith(UrlMask))
 				return null; // TODO: resolve vanity URLs
 
 			long id;
-			if (!long.TryParse(url.Replace(_urlMask, ""), out id))
+			if (!long.TryParse(url.Replace(UrlMask, ""), out id))
 				throw new HolyShitException("This URL be fricked up son! " + url);
 
 			Debug.Print("\t{0}", id);
