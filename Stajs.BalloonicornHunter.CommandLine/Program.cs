@@ -57,7 +57,7 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			{
 				var name = player.Value.Name;
 
-				var id = finder.Get(name);
+				var id = finder.GetSteamIdByName(name);
 
 				Console.WriteLine("\t{0}\t| {1}\t| {2}", player.Index, name, id);
 

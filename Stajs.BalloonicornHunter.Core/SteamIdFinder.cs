@@ -23,12 +23,23 @@ namespace Stajs.BalloonicornHunter.Core
 		}
 
 		// TODO: refactor
-		public long? Get(string name)
+		public long? GetSteamIdByName(string name)
 		{
+			Debug.Print("\nFinding Steam ID for: {0}", name);
+
 			if (string.IsNullOrWhiteSpace(name))
 				return null;
 
-			Debug.Print("\nFinding Steam ID for: {0}", name);
+			var player = Config.UseCache
+				? GetFromCache(name)
+				: GetFromWebRequest(name);
+
+			return player.SteamId;
+		}
+
+		internal Player GetFromCache(string name)
+		{
+			Debug.Print("\tLooking in cache");
 
 			// TODO: interface and query class
 			var cache = new CacheContext();
@@ -37,44 +48,59 @@ namespace Stajs.BalloonicornHunter.Core
 			if (player != null)
 			{
 				Debug.Print("\tFound in cache: {0}", player.SteamId);
-				return player.SteamId;
+				return player;
 			}
 
-			var now = DateTime.Now;
+			player = GetFromWebRequest(name);
 
-			while (now < _nextQueryAt)
-			{
-				Thread.Sleep(TimeSpan.FromMilliseconds(500));
-				now = DateTime.Now;
-				Debug.Print("\tSearching in: {0}", (_nextQueryAt - now).TotalSeconds);
-			}
+			cache.Players.Add(player);
+			cache.SaveChanges();
 
-			_nextQueryAt = now.AddSeconds(4);
+			return player;
+		}
+
+		internal Player GetFromWebRequest(string name)
+		{
+			const string urlMask = "http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22";
+
+			EnsureWebRequestsAreThrottled();
 
 			Debug.Print("\tSearching");
-			var searchUrl = string.Format("http://steamcommunity.com/actions/Search?T=Account&K=%22{0}%22", HttpUtility.UrlEncode(name));
+			var searchUrl = string.Format(urlMask, HttpUtility.UrlEncode(name));
 			var dom = CQ.CreateFromUrl(searchUrl);
 			var profileUrls = FindProfileUrls(dom);
 
 			Debug.Print("\tProfile URL Count: {0}", profileUrls.Count);
 
-			var steamId = Get(profileUrls);
+			var steamId = GetFromProfileUrls(profileUrls);
 
-			player = new Player
+			return new Player
 			{
 				Name = name,
 				SteamId = steamId,
 				QueryCount = profileUrls.Count,
 				QueriedAt = DateTime.Now
 			};
-
-			cache.Players.Add(player);
-			cache.SaveChanges();
-
-			return steamId;
 		}
 
-		internal long? Get(List<string> profileUrls)
+		internal void EnsureWebRequestsAreThrottled()
+		{
+			const int secondsBetweenWebRequests = 4;
+			const int sleepyTime = 500;
+
+			var now = DateTime.Now;
+
+			while (now < _nextQueryAt)
+			{
+				Thread.Sleep(TimeSpan.FromMilliseconds(sleepyTime));
+				now = DateTime.Now;
+				Debug.Print("\tSearching in: {0}", (_nextQueryAt - now).TotalSeconds);
+			}
+
+			_nextQueryAt = now.AddSeconds(secondsBetweenWebRequests);
+		}
+
+		internal long? GetFromProfileUrls(List<string> profileUrls)
 		{
 			if (profileUrls.Count != 1)
 				return null;

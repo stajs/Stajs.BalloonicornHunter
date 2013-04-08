@@ -8,6 +8,6 @@ namespace Stajs.BalloonicornHunter.Core
 {
 	public interface ISteamIdFinder
 	{
-		long? Get(string name);
+		long? GetSteamIdByName(string name);
 	}
 }
