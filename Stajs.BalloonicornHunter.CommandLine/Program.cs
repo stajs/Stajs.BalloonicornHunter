@@ -46,11 +46,8 @@ namespace Stajs.BalloonicornHunter.CommandLine
 			Debug.Print(msg);
 			Console.WriteLine(msg);
 
-			//var kernel = new StandardKernel(new StandardModule());
-
 			var steamIds = new List<long>();
 
-			//var finder = kernel.Get<ISteamIdFinder>();
 			var finder = new SteamIdFinder();
 
 			foreach (var player in players.Players.Select((v, i) => new { Index = i, Value = v }))
