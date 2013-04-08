@@ -7,18 +7,27 @@ using System.Threading.Tasks;
 
 namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 {
-	public enum Map
+	public static class Maps
 	{
-		[Description(@"\map\pl_goldrush")]
-		GoldRush,
+		public static class Payload
+		{
+			public static string All = GoldRush + BadWaterBasin + Frontier + Hightower;
 
-		[Description(@"\map\sd_doomsday")]
-		Doomsday,
+			public static string GoldRush = @"\map\pl_goldrush";
+			public static string BadWaterBasin = @"\map\pl_badwater";
+			public static string Frontier = @"\map\pl_frontier_final";
+			public static string Hightower = @"\map\plr_hightower";
+		}
 
-		[Description(@"\map\ctf_turbine")]
-		Turbine,
+		public static class SpecialDelivery
+		{
+			public static string Doomsday = @"\map\sd_doomsday";
+		}
 
-		[Description(@"\map\arena_granary")]
-		ArenaGranary
+		public static class CaptureTheFlag
+		{
+			public static string Turbine = @"\map\ctf_turbine";
+			public static string DoubleCross = @"\map\ctf_doublecross";
+		}
 	}
 }

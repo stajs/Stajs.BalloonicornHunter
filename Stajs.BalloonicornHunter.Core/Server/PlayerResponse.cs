@@ -16,7 +16,6 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		public PacketFormat PacketFormat { get; private set; }
 		public string Header { get; private set; }
-		public int PlayerCount { get; private set; }
 		public List<Player> Players { get; private set; }
 
 		public PlayerResponse(byte[] bytes)
@@ -75,12 +74,12 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			if (Header != expectedHeader)
 				throw new ResponseHeaderException();
 
-			PlayerCount = bytes[0];
+			var playerCount = bytes[0];
 			bytes = bytes.RemoveFromStart(1);
 
 			Players = new List<Player>();
 
-			for (var i = 0; i < PlayerCount; i++)
+			for (var i = 0; i < playerCount; i++)
 			{
 				var player = new Player();
 
@@ -110,7 +109,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 
 		public override string ToString()
 		{
-			return string.Format("{0} player(s) | {1}", PlayerCount, string.Join(" | ", Players.Select(p => p.Name)));
+			return string.Format("{0} player(s) | {1}", Players.Count, string.Join(" | ", Players.Select(p => p.Name)));
 		}
 	}
 }

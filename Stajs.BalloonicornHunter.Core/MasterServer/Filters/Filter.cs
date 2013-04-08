@@ -12,7 +12,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 		public bool? HasPlayers { get; set; }
 		public bool? IsNotFull { get; set; }
 		public bool? IsVacProtected { get; set; }
-		public Map? Map { get; set; }
+		public string Map { get; set; }
 
 		public string ToFilterString()
 		{
@@ -30,8 +30,7 @@ namespace Stajs.BalloonicornHunter.Core.MasterServer.Filters
 			if (IsVacProtected.HasValue && IsVacProtected.Value)
 				sb.Append(@"\secure\1");
 			
-			if (Map.HasValue)
-				sb.Append(Map.GetDescription());
+			sb.Append(Map);
 
 			return sb.ToString();
 		}

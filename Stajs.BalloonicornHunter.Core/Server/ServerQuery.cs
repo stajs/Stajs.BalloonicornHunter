@@ -29,7 +29,7 @@ namespace Stajs.BalloonicornHunter.Core.Server
 			return bytesReceived;
 		}
 
-		public InfoResponse GetInfo()
+		public InfoResponse GetServerInfo()
 		{
 			var bytesReceived = GetResponseBytes(new InfoRequest());
 			var response = new InfoResponse(bytesReceived);
